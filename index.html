@@ -1,0 +1,1878 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ინსტრუქციები თეკლასთვის: Windows 11 Pro + Legion Pro 7 (83F50025RK)</title>
+<meta name="description" content="დეტალური ნაბიჯ-ნაბიჯ გზამკვლევი: Windows 11 Pro 26H2-ის დაყენება ფლეშკიდან Lenovo Legion Pro 7 16IAX10H-ზე, დრაივერები, გაწმენდა, აქტივაცია და არქიტექტურის/დიზაინის პროგრამები.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070b10; --panel:#0f1621; --line:#1e2b3c; --line2:#2a3d54;
+    --text:#e7eef7; --muted:#92a5ba; --dim:#6c8098;
+    --accent:#38d9ea; --accent-soft:rgba(56,217,234,.12);
+    --ok:#4ade80; --ok-soft:rgba(74,222,128,.12);
+    --warn:#ffb84d; --warn-soft:rgba(255,184,77,.12);
+    --danger:#ff7b7b; --danger-soft:rgba(255,123,123,.12);
+    --radius:16px;
+    --font:"Noto Sans Georgian","Sylfaen","Segoe UI",system-ui,sans-serif;
+    --mono:"JetBrains Mono","Cascadia Mono",Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:
+      radial-gradient(1100px 620px at 12% -8%,rgba(56,217,234,.10),transparent 62%),
+      radial-gradient(900px 520px at 100% 0%,rgba(74,222,128,.06),transparent 60%),
+      var(--bg);
+    color:var(--text);font-family:var(--font);line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent);text-decoration:none;border-bottom:1px dashed rgba(56,217,234,.35)}
+  a:hover{border-bottom-color:var(--accent)}
+  code,kbd,pre{font-family:var(--mono)}
+  code{background:#0a121c;border:1px solid var(--line);border-radius:6px;padding:.12em .42em;font-size:.86em;color:#cfe9f2}
+  h1,h2,h3,h4{line-height:1.22;margin:0 0 .55em;font-weight:700}
+  h1{font-size:clamp(1.7rem,3.6vw,2.6rem);letter-spacing:.2px}
+  h2{font-size:clamp(1.32rem,2.4vw,1.72rem)}
+  h3{font-size:1.08rem;margin-top:1.4em}
+  h4{font-size:.97rem;color:var(--accent);margin:1.2em 0 .4em}
+  p{margin:.55em 0}
+  ul,ol{margin:.5em 0 .8em;padding-left:1.35em}
+  li{margin:.3em 0}
+  li::marker{color:var(--dim)}
+  strong{font-weight:600;color:#f4f9ff}
+  small{color:var(--muted)}
+
+  .topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(7,11,16,.88);border-bottom:1px solid var(--line)}
+  .topbar-in{max-width:1320px;margin:0 auto;padding:10px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .brand{font-weight:700;font-size:.92rem;letter-spacing:.4px;display:flex;align-items:center;gap:9px}
+  .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent)}
+  .topbar .spacer{flex:1}
+  .progress-wrap{display:flex;align-items:center;gap:10px;font-size:.78rem;color:var(--muted)}
+  .progress-track{width:170px;height:7px;border-radius:99px;background:#111b27;border:1px solid var(--line);overflow:hidden}
+  .progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--ok));transition:width .35s ease}
+  .btn{font:inherit;font-size:.8rem;font-weight:600;color:var(--text);background:#101a26;border:1px solid var(--line2);border-radius:10px;padding:.42em .85em;cursor:pointer}
+  .btn:hover{border-color:var(--accent);color:var(--accent)}
+  .btn-accent{background:var(--accent-soft);border-color:rgba(56,217,234,.4);color:var(--accent)}
+
+  .shell{max-width:1320px;margin:0 auto;padding:26px 22px 90px;display:grid;grid-template-columns:265px minmax(0,1fr);gap:32px}
+  @media (max-width:1080px){.shell{grid-template-columns:1fr;gap:16px}}
+
+  nav.toc{position:sticky;top:64px;align-self:start;max-height:calc(100vh - 90px);overflow:auto;padding:14px;
+    border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(180deg,var(--panel),rgba(15,22,33,.55))}
+  @media (max-width:1080px){nav.toc{position:relative;top:0;max-height:none}}
+  nav.toc .toc-title{font-size:.7rem;letter-spacing:1.4px;color:var(--dim);margin:0 0 8px;font-weight:600}
+  nav.toc a{display:flex;gap:9px;align-items:baseline;padding:5px 8px;border-radius:8px;color:var(--muted);font-size:.84rem;border:0;line-height:1.35}
+  nav.toc a .n{font-family:var(--mono);font-size:.7rem;color:var(--dim);min-width:16px}
+  nav.toc a:hover{background:#121c28;color:var(--text)}
+  nav.toc a.active{background:var(--accent-soft);color:var(--accent)}
+  nav.toc a.active .n{color:var(--accent)}
+  nav.toc .toc-foot{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);font-size:.74rem;color:var(--dim)}
+
+  main{min-width:0}
+
+  .hero{border:1px solid var(--line);border-radius:22px;padding:30px 28px 26px;
+    background:radial-gradient(700px 320px at 88% -20%,rgba(56,217,234,.16),transparent 62%),linear-gradient(160deg,#0d1520,#0a1018);
+    margin-bottom:24px;position:relative;overflow:hidden}
+  .hero .kicker{font-size:.74rem;letter-spacing:2.2px;color:var(--accent);font-weight:600;margin-bottom:10px}
+  .hero h1{margin-bottom:10px}
+  .hero .lede{color:var(--muted);max-width:72ch;font-size:.98rem}
+  .forwhom{display:block;margin:0 0 14px;padding:11px 15px;border-radius:12px;border:1px solid rgba(56,217,234,.38);
+    background:rgba(56,217,234,.09);color:#dcf1f7;font-size:.9rem;max-width:78ch}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .chip{font-size:.76rem;padding:.3em .7em;border-radius:99px;background:#0d1724;border:1px solid var(--line2);color:#cfe0ee}
+  .chip b{color:var(--accent);font-weight:600}
+  .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;position:relative;z-index:2}
+
+  .card{border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(180deg,var(--panel),rgba(11,17,24,.75));
+    padding:24px 26px;margin:0 0 22px;scroll-margin-top:70px}
+  @media (max-width:600px){.card{padding:18px 16px}.hero{padding:22px 18px}}
+  .card > h2{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+  .sec-num{font-family:var(--mono);font-size:.76rem;color:#04141a;background:var(--accent);border-radius:8px;padding:.16em .5em;font-weight:600}
+  .sec-time{font-size:.72rem;color:var(--muted);border:1px solid var(--line2);border-radius:99px;padding:.2em .6em;font-family:var(--mono)}
+  .sub{color:var(--muted);font-size:.93rem;margin:-6px 0 16px}
+
+  .note,.warn,.danger,.ok{border-radius:12px;padding:13px 16px;margin:14px 0;border:1px solid;font-size:.91rem}
+  .note{background:var(--accent-soft);border-color:rgba(56,217,234,.32)}
+  .warn{background:var(--warn-soft);border-color:rgba(255,184,77,.34)}
+  .danger{background:var(--danger-soft);border-color:rgba(255,123,123,.36)}
+  .ok{background:var(--ok-soft);border-color:rgba(74,222,128,.34)}
+  .note b,.warn b,.danger b,.ok b{display:block;margin-bottom:4px;font-size:.76rem;letter-spacing:1.1px;text-transform:uppercase}
+  .note b{color:var(--accent)} .warn b{color:var(--warn)} .danger b{color:var(--danger)} .ok b{color:var(--ok)}
+
+  .step{display:grid;grid-template-columns:34px 1fr;gap:14px;padding:13px 0;border-bottom:1px dashed var(--line)}
+  .step:last-child{border-bottom:0}
+  .step .bubble{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:#0b1420;border:1px solid var(--line2);
+    color:var(--accent);font-family:var(--mono);font-size:.84rem;font-weight:600}
+  .step h4{margin:2px 0 4px;color:var(--text);font-size:.97rem}
+  .step p{margin:.22em 0;color:#d3e0ec;font-size:.93rem}
+  .step .hint{color:var(--muted);font-size:.85rem}
+
+  label.check{display:flex;gap:11px;align-items:flex-start;padding:8px 11px;border-radius:10px;border:1px solid transparent;cursor:pointer;font-size:.93rem;line-height:1.45}
+  label.check:hover{background:#0e1824;border-color:var(--line)}
+  label.check input{appearance:none;width:19px;height:19px;min-width:19px;margin-top:2px;border-radius:6px;border:1.5px solid var(--line2);background:#0a121c;cursor:pointer;position:relative}
+  label.check input:checked{background:var(--ok);border-color:var(--ok)}
+  label.check input:checked::after{content:"";position:absolute;left:5px;top:2px;width:5px;height:10px;border:solid #052012;border-width:0 2px 2px 0;transform:rotate(42deg)}
+  label.check input:checked + span{color:var(--dim);text-decoration:line-through;text-decoration-color:rgba(146,165,186,.5)}
+  label.check span{flex:1}
+
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:14px 0}
+  table{border-collapse:collapse;width:100%;font-size:.89rem;min-width:560px}
+  th,td{padding:10px 13px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#0c1521;color:#b9cde0;font-weight:600;font-size:.8rem;letter-spacing:.4px}
+  tr:last-child td{border-bottom:0}
+  tbody tr:hover{background:rgba(56,217,234,.04)}
+  td .mini{color:var(--dim);font-size:.81rem}
+
+  pre{position:relative;background:#080f17;border:1px solid var(--line);border-radius:12px;padding:14px 15px;overflow:auto;font-size:.85rem;line-height:1.55;margin:12px 0}
+  pre code{background:none;border:0;padding:0;color:#bfe6f0;font-size:1em}
+  .copy{position:absolute;top:8px;right:8px;font:inherit;font-size:.7rem;font-family:var(--mono);background:#101d2a;color:var(--muted);
+    border:1px solid var(--line2);border-radius:7px;padding:.22em .5em;cursor:pointer}
+  .copy:hover{color:var(--accent);border-color:var(--accent)}
+  kbd{background:#111d2a;border:1px solid var(--line2);border-bottom-width:2px;border-radius:6px;padding:.1em .45em;font-size:.8em;color:#dcecf8;white-space:nowrap}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:820px){.grid2{grid-template-columns:1fr}}
+  .mini-card{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#0c141e}
+  .mini-card h4{margin:0 0 6px;color:var(--accent);font-size:.84rem;letter-spacing:.6px}
+  .mini-card p{margin:.2em 0;font-size:.89rem;color:#cddbe8}
+  .pill{display:inline-block;font-size:.7rem;font-family:var(--mono);padding:.1em .5em;border-radius:99px;border:1px solid var(--line2);color:var(--muted);margin-left:6px;white-space:nowrap}
+  .pill.free{color:var(--ok);border-color:rgba(74,222,128,.4);background:var(--ok-soft)}
+  .pill.paid{color:var(--warn);border-color:rgba(255,184,77,.4);background:var(--warn-soft)}
+  .pill.edu{color:var(--accent);border-color:rgba(56,217,234,.4);background:var(--accent-soft)}
+  details{border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:#0b131d;margin:12px 0}
+  details summary{cursor:pointer;font-weight:600;color:#dbe9f5;font-size:.93rem}
+  details[open] summary{margin-bottom:10px;color:var(--accent)}
+  details p,details li{font-size:.91rem}
+  .url{font-family:var(--mono);font-size:.78rem;word-break:break-all;color:var(--muted)}
+  .foot{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);color:var(--dim);font-size:.8rem}
+  .divider{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin:22px 0}
+
+  @media print{
+    :root{--bg:#fff;--panel:#fff;--text:#111;--muted:#444;--dim:#666;--line:#ccc;--line2:#bbb}
+    body{background:#fff;color:#111}
+    .topbar,nav.toc,.hero-actions,.copy,.progress-wrap{display:none!important}
+    .shell{display:block;max-width:100%;padding:0}
+    .card,.hero{border-color:#ccc;background:#fff;break-inside:avoid;page-break-inside:avoid}
+    a{color:#0a5c6b;border:0}
+    pre{background:#f4f6f8;border-color:#ccc}
+    pre code{color:#111}
+    th{background:#eee;color:#111}
+    .note,.warn,.danger,.ok{background:#f7f9fb}
+    label.check input{display:none}
+    label.check span{text-decoration:none;color:#111}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <div class="brand"><span class="dot"></span> თეკლას ლეპტოპი / LEGION PRO 7 / WINDOWS 11 PRO</div>
+    <div class="spacer"></div>
+    <div class="progress-wrap">
+      <span id="pct">0%</span>
+      <div class="progress-track"><div class="progress-fill" id="bar"></div></div>
+    </div>
+    <button class="btn" onclick="window.print()">ბეჭდვა / PDF</button>
+    <button class="btn" id="resetBtn">პროგრესის განულება</button>
+  </div>
+</div>
+
+<div class="shell">
+
+  <nav class="toc" id="toc">
+    <p class="toc-title">სარჩევი</p>
+    <a href="#quick"><span class="n">00</span> სწრაფი გეგმა</a>
+    <a href="#device"><span class="n">01</span> ლეპტოპი და მისი ძალა</a>
+    <a href="#choose"><span class="n">02</span> რომელი ვინდოუსი</a>
+    <a href="#clean"><span class="n">03</span> გაწმენდილი ვერსია</a>
+    <a href="#usb"><span class="n">04</span> ფლეშკის მომზადება</a>
+    <a href="#bios"><span class="n">05</span> BIOS-ის შემოწმება</a>
+    <a href="#install"><span class="n">06</span> ინსტალაცია</a>
+    <a href="#oobe"><span class="n">07</span> პირველი ჩართვა</a>
+    <a href="#drivers"><span class="n">08</span> დრაივერები</a>
+    <a href="#debloat"><span class="n">09</span> გაწმენდა</a>
+    <a href="#activate"><span class="n">10</span> აქტივაცია</a>
+    <a href="#apps"><span class="n">11</span> პროგრამები</a>
+    <a href="#tuning"><span class="n">12</span> მოწყობა სამუშაოდ</a>
+    <a href="#accept"><span class="n">13</span> მიღების ჩექლისტი</a>
+    <a href="#trouble"><span class="n">14</span> პრობლემები</a>
+    <a href="#videos"><span class="n">15</span> ვიდეოები</a>
+    <a href="#links"><span class="n">16</span> ლინკები</a>
+    <a href="#faq"><span class="n">17</span> კითხვა-პასუხი</a>
+    <a href="#commands"><span class="n">18</span> ბრძანებები</a>
+    <div class="toc-foot">პროგრესი ინახება ბრაუზერში.<br>2026 წლის ნოემბერი</div>
+  </nav>
+
+  <main>
+
+    <header class="hero">
+      <div class="kicker">ინსტრუქციები თეკლასთვის</div>
+      <h1>Windows 11 Pro: სუფთა დაყენება ფლეშკიდან</h1>
+      <p class="forwhom">
+        <strong>ეს გვერდი შექმნილია კონკრეტულად თეკლას ლეპტოპისთვის:</strong>
+        Lenovo Legion Pro 7 16IAX10H, მოდელი 83F50025RK. თუ რომელიმე ეკრანი სხვანაირად გამოჩნდა, ენდე ეკრანს და არა ტექსტს.
+      </p>
+      <p class="lede">
+        Lenovo Legion Pro 7 16IAX10H (მოდელი 83F50025RK) მოდის FreeDOS-ით, ანუ ვინდოუსი არ აქვს და ჩვენ თვითონ ვაყენებთ.
+        ეს დოკუმენტი არის სრული გზა: ფლეშკის ჩაწერიდან დაწყებული, დრაივერებით, გაწმენდილი ვერსიით, აქტივაციით
+        და არქიტექტურის პროგრამებით დამთავრებული. ღია უჯრები მონიშნე, როცა დასრულდება და პროგრესი თავად დაითვლება.
+      </p>
+      <div class="chips">
+        <span class="chip">პროცესორი: <b>Ultra 9 275HX</b>, 24 ბირთვი</span>
+        <span class="chip">ვიდეო: <b>RTX 5080</b> 16GB</span>
+        <span class="chip">მეხსიერება: <b>32GB</b> DDR5</span>
+        <span class="chip">დისკი: <b>1TB</b> PCIe 5.0</span>
+        <span class="chip">ეკრანი: <b>16" OLED 240Hz</b></span>
+        <span class="chip">სისტემა: <b>Windows 11 Pro 26H2</b></span>
+      </div>
+      <div class="hero-actions">
+        <a class="btn btn-accent" href="#quick">სწრაფი გეგმა (1 წუთი)</a>
+        <a class="btn" href="#apps">პროგრამები პირდაპირ</a>
+        <a class="btn" href="#trouble">თუ რამე გაფუჭდა</a>
+      </div>
+    </header>
+
+    <section class="card" id="quick">
+      <h2><span class="sec-num">00</span> სწრაფი გეგმა <span class="sec-time">1 წუთი საკითხავი</span></h2>
+      <p class="sub">თუ დრო არ არის, ექვსი პუნქტი საკმარისია გასაგებად რა ხდება და რა თანმიმდევრობით.</p>
+
+      <div class="grid2">
+        <div class="mini-card">
+          <h4>1. ვინდოუსის არჩევანი</h4>
+          <p>ოფიციალური <strong>Windows 11 Pro 26H2</strong> (მიმდინარე ვერსია, გამოვიდა 2026 წლის 29 სექტემბერს).
+          Home არ ავიღოთ: Pro მეტს იძლევა (BitLocker, Hyper-V, Remote Desktop, ჯგუფური პოლიტიკები).</p>
+        </div>
+        <div class="mini-card">
+          <h4>2. ფლეშკა</h4>
+          <p>16GB USB 3.0+ (მინიმუმ 8GB). ჩაწერა <strong>Rufus 4.15</strong>-ით ან Microsoft-ის ხელსაწყოთი.
+          Rufus ერთ მნიშვნელოვან ბონუსს იძლევა: Microsoft-ის ანგარიშის იძულების გამორთვას.</p>
+        </div>
+        <div class="mini-card">
+          <h4>3. BIOS</h4>
+          <p>ჩართვისას <kbd>F2</kbd> (BIOS), <kbd>F12</kbd> (boot menu). Secure Boot ჩართული, TPM (Intel PTT) ჩართული, UEFI რეჟიმი.
+          ეს ლეპტოპი Windows 11-ის ყველა მოთხოვნას აკმაყოფილებს, ამიტომ ხრიკები არ გვჭირდება.</p>
+        </div>
+        <div class="mini-card">
+          <h4>4. ინსტალაცია</h4>
+          <p>ძველი დანაყოფების წაშლა, სუფთა დისკზე დაყენება: 25-40 წუთი, პირველი ჩართვა 10-15 წუთი.
+          ინტერნეტი სჭირდება, მაგრამ ანგარიშის გარეშე შეიძლება.</p>
+        </div>
+        <div class="mini-card">
+          <h4>5. დრაივერები და გაწმენდა</h4>
+          <p>ჯერ Windows Update, მერე Lenovo-ს დრაივერები, შემდეგ <strong>NVIDIA Studio</strong> დრაივერი (არა Game Ready).
+          ბოლოს, სურვილისამებრ, Win11Debloat ან ReviOS playbook.</p>
+        </div>
+        <div class="mini-card">
+          <h4>6. პროგრამები</h4>
+          <p>AutoCAD, Revit ან Archicad, SketchUp, Rhino, Lumion ან D5, Adobe ან Affinity.
+          ყველა მათგანს აქვს <strong>სტუდენტური უფასო ან ფასდაკლებული</strong> ლიცენზია, ლინკები მე-11 თავშია.</p>
+        </div>
+      </div>
+
+      <div class="note">
+        <b>დროის რეალური შეფასება</b>
+        ფლეშკის მომზადება 30-60 წუთი (გადმოწერა დომინირებს), ინსტალაცია 25-40 წუთი, პირველი ჩართვა 10-15 წუთი,
+        განახლებები 40-90 წუთი, დრაივერები 30-45 წუთი, პროგრამები 2-4 საათი. ანუ სამუშაო სისტემა დაახლოებით 2.5 საათში,
+        სრულად აღჭურვილი კი მეორე დღეს.
+      </div>
+    </section>
+
+    <section class="card" id="device">
+      <h2><span class="sec-num">01</span> ლეპტოპი და რას ნიშნავს ეს პროგრამებისთვის</h2>
+      <p class="sub">მონაცემები Lenovo-ს ოფიციალური PSREF სპეციფიკაციიდან, მოდელი 83F50025RK.</p>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>ნაწილი</th><th>ზუსტი მახასიათებელი</th><th>რას ნიშნავს პრაქტიკაში</th></tr></thead>
+          <tbody>
+            <tr><td>პროცესორი</td><td>Intel Core Ultra 9 275HX, 24 ბირთვი (8 სწრაფი + 16 ეკონომიური), 5.4GHz-მდე, 36MB cache</td><td>Revit, Archicad და Lumion ერთდროულადაც იმუშავებს გაჭედვის გარეშე</td></tr>
+            <tr><td>ვიდეო ბარათი</td><td>NVIDIA GeForce RTX 5080 Laptop, 16GB GDDR7, 175W</td><td>რენდერი, Twinmotion/D5, Photoshop-ის AI ფუნქციები, 3D ვიუპორტი</td></tr>
+            <tr><td>მეხსიერება</td><td>2 x 16GB DDR5-6400, ორი სლოტი, მაქსიმუმ 64GB</td><td>32GB საკმარისია სტუდენტური პროექტებისთვის, მოგვიანებით 64GB-მდე გაფართოებადი</td></tr>
+            <tr><td>დისკი</td><td>1TB M.2 2280 PCIe 5.0 NVMe, მეორე M.2 სლოტი თავისუფალია</td><td>პროგრამები და პროექტები ეტევა, მოგვიანებით კიდევ ერთი SSD დაემატება</td></tr>
+            <tr><td>ეკრანი</td><td>16" WQXGA 2560x1600 OLED, 240Hz, 500 ნიტი (პიკში 1100), 100% DCI-P3, DisplayHDR True Black 1000</td><td>ფერები სერიოზული სამუშაოსთვის, 240Hz თვალისთვის კომფორტული</td></tr>
+            <tr><td>კავშირი</td><td>Wi-Fi 7 (802.11be) + Bluetooth 5.4, Ethernet 2.5Gb, Thunderbolt 4, HDMI 2.1</td><td>სწრაფი ინტერნეტი, გარე მონიტორი/პროექტორი უპრობლემოდ</td></tr>
+            <tr><td>ხმა</td><td>Realtek ALC3306, 4 დინამიკი, Nahimic</td><td>ვიდეოკონფერენცია და მუსიკა ნორმალურად</td></tr>
+            <tr><td>კვება</td><td>ბატარეა 99.9Wh, დამტენი 400W</td><td>დამტენი ყოველთვის თან იყოს: რენდერის დროს ბატარეაზე არ იმუშაოს</td></tr>
+            <tr><td>წონა / კორპუსი</td><td>2.57 კგ, ალუმინი, Eclipse Black</td><td>ზურგჩანთაში სტუდენტისთვის ნორმალური</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="ok">
+        <b>მთავარი დასკვნა</b>
+        ეს არის არქიტექტურის სტუდენტისთვის ზედმეტად კარგი მანქანა: 16GB ვიდეო მეხსიერება და 175W TGP ნიშნავს, რომ Lumion, D5 Render, Twinmotion
+        და Revit-ის რეალისტური ხედები იმუშავებს ისე, როგორც პროფესიონალურ სამუშაო სადგურზე. ერთადერთი, რაც ამ რკინას სჭირდება, არის სწორად დაყენებული
+        Windows და სწორი დრაივერები. სწორედ ამას ეხება ეს დოკუმენტი.
+      </div>
+    </section>
+
+    <section class="card" id="choose">
+      <h2><span class="sec-num">02</span> რომელი ვინდოუსი უნდა დავაყენოთ <span class="sec-time">გადაწყვეტილება</span></h2>
+      <p class="sub">მოკლე პასუხი: Windows 11 Pro, ვერსია 26H2. ISO-ს ვიღებთ ან Microsoft-ის გვერდიდან, ან massgrave-ის ორიგინალი ფაილების ინდექსიდან (Business ვერსია, შიგნით Pro არის).</p>
+
+      <h3>რატომ 26H2 და არა ძველი ვერსია</h3>
+      <ul>
+        <li>26H2 არის მიმდინარე გამოშვება (2026 წლის 29 სექტემბერი), ბირთვი build 26300.</li>
+        <li>ახალი დაყენებისას ძველი ვერსიის არჩევას აზრი არ აქვს: პირველივე განახლება მაინც 26H2-ზე აიყვანს.</li>
+        <li>26H2 და 25H2 ერთსა და იმავე კოდის ბაზაზეა, ამიტომ პროგრამებთან თავსებადობა იგივეა.</li>
+        <li>ReviOS-ის უახლესი playbook (26.10) უკვე მხარს უჭერს 26H1 და 26H2-ს, ანუ გაწმენდის ვარიანტიც თავისუფლად მუშაობს.</li>
+      </ul>
+
+      <h3>რატომ Pro და არა Home</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>ფუნქცია</th><th>Home</th><th>Pro</th><th>რატომ გვჭირდება</th></tr></thead>
+          <tbody>
+            <tr><td>BitLocker (დისკის დაშიფვრა)</td><td>მხოლოდ მარტივი ვერსია</td><td>სრული</td><td>ლეპტოპი ზურგჩანთაში დადის, დაკარგვისას პროექტები დაცულია</td></tr>
+            <tr><td>Hyper-V</td><td>არა</td><td>დიახ</td><td>საჭიროებისას ვირტუალური მანქანა, Linux ან ძველი პროგრამა</td></tr>
+            <tr><td>Remote Desktop (სერვერის მხარე)</td><td>არა</td><td>დიახ</td><td>სახლიდან ლეპტოპზე მიერთება</td></tr>
+            <tr><td>ჯგუფური პოლიტიკები</td><td>არა</td><td>დიახ</td><td>გაწმენდისა და ტონკი პარამეტრებისთვის</td></tr>
+            <tr><td>Windows Sandbox</td><td>არა</td><td>დიახ</td><td>საეჭვო ფაილის გახსნა იზოლირებულად</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note">
+        <b>მნიშვნელოვანი დეტალი ქართულად მომუშავე ადამიანისთვის</b>
+        Windows 11-ს ქართული ინტერფეისი არ აქვს. სისტემა ინგლისურად იქნება (შეიძლება რუსულადაც, მაგრამ ინგლისური ჯობია პროგრამებთან).
+        ქართული კლავიატურა კი სრულყოფილად მუშაობს და მას დაყენების დროსვე დავამატებთ, ასე რომ ტექსტს ქართულად თავისუფლად დაწერს.
+      </div>
+
+      <h3>საიდან ჩამოვწეროთ ISO და რომელი ფაილი ავირჩიოთ</h3>
+      <p>
+        ორი სანდო წყარო გვაქვს: Microsoft-ის ოფიციალური გვერდი და <strong>massgrave.dev/windows_11_links</strong>-ის ინდექსი.
+        მეორე არის უბრალოდ კატალოგი: იქ მოცემულია მხოლოდ Microsoft-ის სერვერებზე არსებული ორიგინალი ფაილები (საიტზე წერია:
+        "All download links lead to genuine files only"). ანუ ფაილი იგივეა, უბრალოდ პირდაპირი ლინკია და ყოველთვიურად
+        განახლებული ვერსია (ბოლო: build 26300.9457, 2026 წლის სექტემბერი).
+      </p>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>ISO</th><th>რა გამოცემებია შიგნით</th><th>ჩვენთვის</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Business 26H2</strong><br><span class="mini">en-us_windows_11_business_editions_version_26h2_x64</span></td>
+              <td>Pro, Pro Education, Pro for Workstations, Education, Enterprise (Home არა)</td>
+              <td><span class="pill free">რჩევა</span> ერთი ფაილი, შიგნით Pro-ც და Enterprise-ც. თუ უნივერსიტეტი მოგვიანებით Education/Enterprise გასაღებს მოგცემს, ხელახლა დაყენება არ დაგჭირდება</td>
+            </tr>
+            <tr>
+              <td><strong>Consumer 26H2</strong><br><span class="mini">en-us_windows_11_consumer_editions_version_26h2_x64</span></td>
+              <td>Home, Pro, Education (Enterprise არა)</td>
+              <td>ასევე კარგია, თუ Enterprise არ გვაინტერესებს. Pro იდენტურია</td>
+            </tr>
+            <tr>
+              <td><strong>IoT Enterprise 26H2</strong><br><span class="mini">en-us_windows_11_iot_enterprise_version_26h2_x64</span></td>
+              <td>Enterprise, IoT Enterprise, IoT Enterprise Subscription. მხოლოდ ინგლისურად</td>
+              <td><span class="pill paid">არა</span> ლიცენზირება მხოლოდ OEM/volume არხით, ცალკე არ იყიდება</td>
+            </tr>
+            <tr>
+              <td><strong>(IoT) Enterprise LTSC 2024</strong></td>
+              <td>LTSC გამოცემა, 24H2 ბაზა, 10 წლიანი მხარდაჭერა, Store არ აქვს</td>
+              <td><span class="pill paid">არა</span> კორპორატიული სცენარი, არა სტუდენტური ლეპტოპი</td>
+            </tr>
+            <tr>
+              <td><strong>Consumer 26H1</strong></td>
+              <td>მხოლოდ Snapdragon-ის ტიპის ARM მოწყობილობებისთვის</td>
+              <td><span class="pill paid">არა</span> x64-ზე არ დავაყენოთ, თვითონ Microsoft არ გირჩევს</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details>
+        <summary>რატომ არა IoT Enterprise 26H2, მიუხედავად იმისა რომ "სუფთაა"</summary>
+        <p>
+          ტექნიკურად ის იგივე 26300 build-ია, ანუ დრაივერები და პროგრამები ზუსტად ისე იმუშავებს. მაგრამ:
+        </p>
+        <ul>
+          <li><strong>ლიცენზია.</strong> IoT Enterprise ცალკე არ იყიდება, ის OEM/volume არხის პროდუქტია. სტუდენტის ლეპტოპზე ლეგალური გასაღების მოძიება პრაქტიკულად შეუძლებელია.</li>
+          <li><strong>OEM ხაფანგი.</strong> თუ დედაპლატაზე OEM ლიცენზიაა, ინსტალაციის ბოლოს ვინდოუსი თვითონ გადადის Pro-ზე და IoT Enterprise-ის "სისუფთავე" ქრება. გამოცემის დაბრუნება ხდება ხელით, ბრძანებით, რომელიც მხოლოდ SKU-ს ცვლის და აქტივაციას არ აკეთებს.</li>
+          <li><strong>მოგება ნულია.</strong> Enterprise-ის ფუნქციები (AppLocker, Unified Write Filter, Shell Launcher, kiosk რეჟიმი) სტუდენტურ მანქანაზე არასდროს გამოგვადგება, ხოლო ჩვეულებრივი Store და consumer აპები ხელით უნდა დავამატოთ.</li>
+          <li><strong>განახლებები.</strong> Enterprise/IoT განახლებების არხი განსხვავებულია და ზოგი ახალი consumer ფუნქცია (მაგალითად ვიდეო რედაქტორის ნაწილები) გვიან მოდის.</li>
+          <li><strong>მხარდაჭერა.</strong> Lenovo-ს დრაივერები და საგარანტიო სცენარები Windows 11 Home/Pro-ზეა გათვლილი.</li>
+        </ul>
+        <p>
+          იგივე "სისუფთავე" Pro-ზე სრულყოფილად მიიღწევა Win11Debloat-ით ან ReviOS playbook-ით, და ორივე შექცევადია.
+        </p>
+      </details>
+
+      <div class="warn">
+        <b>არ გამოიყენო</b>
+        საიტებიდან ჩამოტვირთული "გამართული" ვინდოუსის ISO ფაილები (მაგალითად "Windows 11 Pro 2026 Preactivated", "Ghost Spectre", "Tiny11").
+        ესენი ოფიციალური არ არის, შიგნით შეიძლება იყოს ჩაშენებული მაინერი ან პაროლების მოპარვის ხელსაწყო, და ვერასოდეს გაიგებ რა შეიცვალა.
+        ჩვენ ვიყენებთ მხოლოდ Microsoft-ის ISO-ს და შემდეგ სუფთად ვასუფთავებთ მას დადასტურებული ხელსაწყოთი.
+        <br><br>
+        <strong>ეს არ ეხება</strong> Microsoft-ის ორიგინალ ISO-ს, რომელიც massgrave-ის ინდექსშიც დევს: ის იგივე ფაილია,
+        უბრალოდ პირდაპირი ლინკით და ჰეშით დადასტურებადი. განსხვავება მარტივია: ორიგინალი ISO ითიშება Microsoft-ის მიერ ხელმოწერილი
+        კომპონენტებით, "გამართულ" ISO-ში კი ვიღაცამ უკვე შეცვალა შიგთავსი.
+      </div>
+    </section>
+
+    <section class="card" id="clean">
+      <h2><span class="sec-num">03</span> "გაწმენდილი ვერსია": რა არის და რომელი ავირჩიოთ</h2>
+      <p class="sub">ლუის მანქანაზე სწორედ ასეთი "რევიზია" გიყენია. ქვემოთ ოთხი დონეა, დაბალიდან აგრესიულამდე.</p>
+
+      <div class="note">
+        <b>მნიშვნელოვანი გარკვევა</b>
+        massgrave.dev/windows_11_links (ის ლინკი, რომელიც მე-2 თავშია) <strong>გაწმენდილი ვერსია არ არის</strong>. იქ მხოლოდ
+        Microsoft-ის ორიგინალი ISO ფაილების ინდექსია (და ცალკე გვერდებზე აქტივაციის ხელსაწყოები, რომლებსაც ჩვენ არ ვიყენებთ).
+        გაწმენდა ხდება <strong>ვინდოუსის დაყენების შემდეგ</strong>, ცალკე პროგრამით. ზუსტი წყაროები მე-9 თავშია, მოკლედ კი ასეა:
+        წმენდის ხელსაწყო <a href="https://github.com/Raphire/Win11Debloat/releases/latest" target="_blank" rel="noopener">github.com/Raphire/Win11Debloat</a>,
+        ღრმა ვარიანტი <a href="https://revi.cc/download" target="_blank" rel="noopener">revi.cc/download</a>.
+      </div>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>დონე</th><th>რა ხდება</th><th>რისკი</th><th>დრო</th><th>რეკომენდაცია</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>0. სუფთა Windows</strong></td>
+              <td>ოფიციალური ISO, არაფერი შეხება</td>
+              <td>არცერთი</td>
+              <td>0</td>
+              <td>საბაზისო ვარიანტი</td>
+            </tr>
+            <tr>
+              <td><strong>1. Win11Debloat</strong></td>
+              <td>ხსნის რეკლამებს, Bing-ს, Copilot-ს, ზედმეტ აპებს, თიშავს ტელემეტრიას. Defender რჩება ჩართული. ყველაფერი შექცევადია</td>
+              <td>დაბალი</td>
+              <td>10-15 წთ</td>
+              <td><span class="pill free">რეკომენდებული</span> სტუდენტური მანქანისთვის</td>
+            </tr>
+            <tr>
+              <td><strong>2. ReviOS playbook</strong></td>
+              <td>ღრმა ოპტიმიზაცია: სერვისები, ტელემეტრია, ნაწილობრივ Defender-ის გამორთვა, performance tweaks. "იგივე რევიზია"</td>
+              <td>საშუალო</td>
+              <td>20-30 წთ</td>
+              <td>თუ მაქსიმალური სისწრაფე გვინდა</td>
+            </tr>
+            <tr>
+              <td><strong>3. ReviOS ISO Injection</strong></td>
+              <td>თვითონ ISO-ში ჩაშენება: ვინდოუსი პირველივე ჩართვიდან გაწმენდილია</td>
+              <td>საშუალო-მაღალი (ბეტა)</td>
+              <td>40-60 წთ</td>
+              <td>მხოლოდ გამოცდილისთვის</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>რატომ არა AtlasOS</h3>
+      <p>
+        AtlasOS ამ მომენტისთვის მხარს უჭერს მხოლოდ Windows 11 <strong>25H2</strong>-ს და არ უჭერს მხარს Home გამოცემას.
+        ჩვენ ვაყენებთ 26H2-ს, ამიტომ Atlas არ ერგება. გარდა ამისა, Atlas უფრო აგრესიულად თიშავს სისტემურ კომპონენტებს,
+        რაც CAD პროგრამების ინსტალერებთან ზოგჯერ პრობლემას ქმნის.
+      </p>
+
+      <div class="ok">
+        <b>ჩემი რეკომენდაცია თეკლასთვის</b>
+        1) ოფიციალური Windows 11 Pro, სუფთად დაყენებული. 2) ყველა დრაივერი და განახლება. 3) <strong>Win11Debloat</strong> დონე 1.
+        ეს არის საუკეთესო ბალანსი: სისტემა სუფთაა, Defender მუშაობს, AutoCAD/Revit/Adobe არაფერზე არ ჩივის.
+        თუ მერე აღმოჩნდა, რომ მეტი სისწრაფე სჭირდება, ReviOS playbook ყოველთვის შეიძლება დაემატოს ერთი ღილაკით.
+      </div>
+
+      <details>
+        <summary>რა არის "რევიზია" და რატომ არის პოპულარული</summary>
+        <p>
+          "რევიზია" (ReviOS, ადრე "Revision") არის პროექტი, რომელიც ჩვეულებრივ ვინდოუსს ატარებს სპეციალურ სკრიპტებს: თიშავს ტელემეტრიას,
+          შლის ზედმეტ აპებს, ამსუბუქებს სერვისებს და ცვლის რამდენიმე პარამეტრს. შედეგად სისტემა ნაკლებ მეხსიერებას ჭამს და უფრო სწრაფად
+          რეაგირებს. მთავარია გავიგოთ, რომ ეს არ არის "სხვა ვინდოუსი": ეს იგივე Windows-ია, უბრალოდ მოწესრიგებული.
+        </p>
+        <p>
+          ReviOS-ის ორი გამოყენების გზა არსებობს: (ა) ჩვეულებრივად დააყენო Windows, შემდეგ გაუშვა <strong>AME Wizard</strong>-ი და მასში ჩატვირთო
+          ReviOS-ის playbook ფაილი; (ბ) AME Beta-ს საშუალებით პირდაპირ ISO-ში ჩაშენო playbook და ისე ჩაწერო ფლეშკაზე.
+          ჩვენ ვირჩევთ (ა) ვარიანტს, რადგან უფრო უსაფრთხოა და ყველაფერი შექცევადია.
+        </p>
+      </details>
+    </section>
+
+    <section class="card" id="usb">
+      <h2><span class="sec-num">04</span> ფლეშკის მომზადება <span class="sec-time">30-60 წუთი</span></h2>
+      <p class="sub">ორი გზა არსებობს. ორივე სწორია, Rufus უფრო მოქნილია და ერთ მნიშვნელოვან პრობლემასაც ხსნის.</p>
+
+      <h3>რა გჭირდება</h3>
+      <ul>
+        <li><strong>USB ფლეშკა 16GB</strong> (მინიმუმ 8GB, მაგრამ 16GB უფრო უსაფრთხოა). ყველა მონაცემი წაიშლება, ამიტომ ცარიელი ან დარეზერვებული იყოს.</li>
+        <li><strong>სხვა კომპიუტერი</strong> ვინდოუსით და ინტერნეტით, რომელზეც ფლეშკას ჩავწერთ.</li>
+        <li><strong>ინტერნეტი</strong> მინიმუმ 8GB ტრაფიკისთვის (ISO დაახლოებით 7GB-ია).</li>
+        <li>ლეპტოპის <strong>დამტენი 400W</strong>, ინსტალაციის დროს ჩართული უნდა იყოს.</li>
+      </ul>
+
+      <h3>ნაბიჯი 1: ოფიციალური ISO-ს გადმოწერა</h3>
+      <div class="step">
+        <div class="bubble">1</div>
+        <div>
+          <h4>გახსენი Microsoft-ის გვერდი</h4>
+          <p><a href="https://www.microsoft.com/en-us/software-download/windows11" target="_blank" rel="noopener">microsoft.com/software-download/windows11</a></p>
+          <p class="hint">გვერდზე დაინახავ: "Current release: Windows 11 2026 Update, Version 26H2". ეს არის ის, რაც გვჭირდება.</p>
+          <p class="hint">ალტერნატივა (მე-2 თავში აღწერილი): massgrave.dev/windows_11_links, სადაც Business 26H2-ის ISO-ს პირდაპირი ლინკია.
+          ფაილის სახელი: <code>en-us_windows_11_business_editions_version_26h2_x64_dvd_....iso</code>. Rufus-ით ჩაწერა ზუსტად იგივეა.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">2</div>
+        <div>
+          <h4>აირჩიე "Download Windows 11 Disk Image (ISO) for x64 devices"</h4>
+          <p>ჩამოსქროლე ბოლოში, იქ არის პირდაპირი ISO-ს ჩამოტვირთვის ბლოკი. აირჩიე ენა: <strong>English (United States)</strong>.</p>
+          <p class="hint">ინგლისური იმიტომ, რომ არქიტექტურული პროგრამების ინსტრუქციები, შეცდომების ტექსტები და ტუტორიალები ინგლისურადაა. ქართული კლავიატურა ცალკე დაემატება.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">3</div>
+        <div>
+          <h4>დააჭირე "64-bit Download" და დაელოდე</h4>
+          <p>ფაილი დაახლოებით 7GB-ია. ინტერნეტის სისწრაფეზეა დამოკიდებული: 100Mbps-ზე დაახლოებით 10-15 წუთი.</p>
+        </div>
+      </div>
+
+      <h3>ნაბიჯი 2: ფლეშკაზე ჩაწერა</h3>
+
+      <div class="grid2">
+        <div class="mini-card">
+          <h4>ვარიანტი A: Rufus (რეკომენდებული)</h4>
+          <p>მეტ კონტროლს გაძლევს და Microsoft-ის ანგარიშის იძულებას თიშავს. გადმოწერე:
+          <a href="https://rufus.ie" target="_blank" rel="noopener">rufus.ie</a> (მიმდინარე ვერსია 4.15).</p>
+        </div>
+        <div class="mini-card">
+          <h4>ვარიანტი B: Media Creation Tool</h4>
+          <p>Microsoft-ის ოფიციალური ხელსაწყო, უფრო მარტივი, მაგრამ ანგარიშის იძულებას არ თიშავს და დამატებითი პარამეტრები არ აქვს.
+          იგივე გვერდიდან: "Create Windows 11 Installation Media".</p>
+        </div>
+      </div>
+
+      <h4>Rufus-ის გადმოწერა (თუ ვარიანტი A გვინდა)</h4>
+      <div class="step">
+        <div class="bubble">1</div>
+        <div>
+          <h4>გახსენი rufus.ie/en</h4>
+          <p><a href="https://rufus.ie/en/" target="_blank" rel="noopener">rufus.ie/en</a>. გვერდზე ჩამოსქროლე "Download" სექციამდე.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">2</div>
+        <div>
+          <h4>აირჩიე ვერსია</h4>
+          <p>აიღე უახლესი, მომენტისთვის <strong>Rufus 4.15</strong>. ორი ფაილია: <code>rufus-4.15.exe</code> (პორტაბლური, ინსტალაცია არ სჭირდება)
+          და <code>rufus-4.15p.exe</code> (ინსტალატორი). აიღე პორტაბლური, დაახლოებით 1.5MB-ია.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">3</div>
+        <div>
+          <h4>გახსენი ფაილი</h4>
+          <p>ინსტალაცია არ სჭირდება, ორმაგი დაჭერით იხსნება. Windows-მა შეიძლება გაფრთხილება აჩვენოს: "Windows protected your PC".
+          დააჭირე <strong>"More info"</strong> და შემდეგ <strong>"Run anyway"</strong>. Rufus-ს ციფრული ხელმოწერა არ აქვს,
+          ამიტომ ეს გაფრთხილება ნორმალურია და არ ნიშნავს ვირუსს.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">4</div>
+        <div>
+          <h4>სურვილისამებრ შეამოწმე ჰეში</h4>
+          <p>github.com/pbatard/rufus/releases გვერდზე თითოეულ ფაილს გვერდით აწერია SHA-256. თუ ემთხვევა, ფაილი ნამდვილია.</p>
+        </div>
+      </div>
+
+      <h4>Rufus-ის ნაბიჯები დეტალურად</h4>
+      <div class="step">
+        <div class="bubble">1</div>
+        <div>
+          <h4>ჩასვი ფლეშკა და გახსენი Rufus</h4>
+          <p>Rufus თვითონ ამოიცნობს ფლეშკას "Device" ველში. თუ არა, ჩამოსაშლელი სიიდან აირჩიე.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">2</div>
+        <div>
+          <h4>"Boot selection" გვერდით დააჭირე "SELECT"</h4>
+          <p>აირჩიე გადმოწერილი ISO ფაილი. "Image option" ავტომატურად დადგება "Standard Windows installation".</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">3</div>
+        <div>
+          <h4>შეამოწმე ეს ველები</h4>
+          <div class="tablewrap">
+            <table>
+              <thead><tr><th>ველი</th><th>მნიშვნელობა</th></tr></thead>
+              <tbody>
+                <tr><td>Partition scheme</td><td><strong>GPT</strong></td></tr>
+                <tr><td>Target system</td><td><strong>UEFI (non CSM)</strong></td></tr>
+                <tr><td>File system</td><td>FAT32 (Rufus თვითონ დასვამს)</td></tr>
+                <tr><td>Cluster size</td><td>ნაგულისხმევი (4096)</td></tr>
+                <tr><td>Volume label</td><td>WIN11PRO (სურვილისამებრ)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">4</div>
+        <div>
+          <h4>დააჭირე "START" და მონიშნე პარამეტრები</h4>
+          <p>Rufus გამოგიჩენს ფანჯარას "Windows User Experience". მონიშნე:</p>
+          <ul>
+            <li><strong>Remove requirement for an online Microsoft account</strong> (მთავარი) ანუ ანგარიშს აღარ აიძულებს</li>
+            <li><strong>Create a local account with username</strong> (სურვილისამებრ, სახელი აქვე ჩაწერე, მაგალითად <code>Tekla</code>)</li>
+            <li><strong>Disable data collection (Skip privacy questions)</strong> ანუ პირველი ჩართვისას კითხვებს გამოტოვებს</li>
+          </ul>
+          <div class="warn">
+            <b>ეს არ მონიშნო</b>
+            "Remove requirement for 4GB+ RAM, Secure Boot and TPM 2.0" არ გვჭირდება. ეს ლეპტოპი ყველა მოთხოვნას აკმაყოფილებს და
+            Secure Boot-ის გამორთვა მხოლოდ პრობლემას შექმნის.
+          </div>
+          <p class="hint">თუ Rufus-ის ფანჯარაში დამატებითი პუნქტებია (მაგალითად BitLocker-ის ავტომატური დაშიფვრის შესახებ), ნაგულისხმევად დატოვე.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">5</div>
+        <div>
+          <h4>დაადასტურე წაშლა და დაელოდე</h4>
+          <p>"OK" დააჭირე, Rufus გაფრთხილებს რომ ფლეშკის ყველა მონაცემი წაიშლება. დათანხმდი. ჩაწერა 5-20 წუთი გრძელდება
+          (ფლეშკის სისწრაფეზეა დამოკიდებული). დასრულებისას დაინახავ "READY" და მწვანე ნიშანს.</p>
+        </div>
+      </div>
+
+      <div class="note">
+        <b>ISO-ს შემოწმება (სურვილისამებრ, მაგრამ სასარგებლოა)</b>
+        ვინდოუსზე გახსენი PowerShell და გაუშვი შემდეგი ბრძანება ფაილის საქაღალდეში. მიღებული ჰეშის ბოლო 8 სიმბოლო შეადარე Microsoft-ის
+        გვერდზე მითითებულ SHA256-ს. თუ ემთხვევა, ფაილი ხელუხლებელია.
+      </div>
+      <pre class="cmd"><code>Get-FileHash .\Win11_26H2_English_x64.iso -Algorithm SHA256</code></pre>
+
+      <div class="ok">
+        <b>როგორ მივხვდე რომ ფლეშკა მზადაა</b>
+        ფლეშკაზე უნდა ჩანდეს: <code>setup.exe</code>, საქაღალდეები <code>sources</code>, <code>boot</code>, <code>efi</code> და ფაილი <code>bootmgr</code>.
+        თუ ეს ჩანს, ფლეშკა ჩატვირთვადია და შეგვიძლია ლეპტოპზე გადავიდეთ.
+      </div>
+    </section>
+
+    <section class="card" id="bios">
+      <h2><span class="sec-num">05</span> BIOS-ის შემოწმება <span class="sec-time">5-10 წუთი</span></h2>
+      <p class="sub">BIOS არის რკინის პატარა "პულტი". აქ ვამოწმებთ, რომ სისტემა ვინდოუს 11-ის მოთხოვნებს აკმაყოფილებს.</p>
+
+      <div class="step">
+        <div class="bubble">1</div>
+        <div>
+          <h4>ჩართე ლეპტოპი დამტენით და დააჭირე F2-ს</h4>
+          <p>დააჭირე ჩართვის ღილაკს და შემდეგ სწრაფად, განმეორებით დააჭირე <kbd>F2</kbd>-ს (ან <kbd>Fn</kbd>+<kbd>F2</kbd>). გაიხსნება Lenovo-ს BIOS.</p>
+          <p class="hint">თუ F2 არ მუშაობს: გამორთე ლეპტოპი, იპოვე გვერდითა კუთხეში პატარა ნემსის ხვრელი (Novo), ჩასვი სამაგრი და ჩართე. გაიხსნება მენიუ, სადაც "BIOS Setup" არის.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">2</div>
+        <div>
+          <h4>შეამოწმე ოთხი რამ</h4>
+          <div class="tablewrap">
+            <table>
+              <thead><tr><th>პარამეტრი</th><th>უნდა იყოს</th><th>სად ვეძებოთ</th></tr></thead>
+              <tbody>
+                <tr><td>Boot Mode</td><td>UEFI</td><td>Boot / Startup</td></tr>
+                <tr><td>Secure Boot</td><td>Enabled</td><td>Security / Boot</td></tr>
+                <tr><td>Intel Platform Trust Technology (PTT) ან TPM</td><td>Enabled</td><td>Security</td></tr>
+                <tr><td>Intel VMD / Intel RST (თუ საერთოდ არსებობს)</td><td>Disabled</td><td>Configuration / Storage</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="hint">თუ VMD-ის პუნქტი საერთოდ არ არის, ეს ნორმალურია: Legion-ის ახალ თაობებში ის ხშირად ამოღებულია და დისკი პირდაპირ ჩანს.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">3</div>
+        <div>
+          <h4>შეინახე და გადი</h4>
+          <p>დააჭირე <kbd>F10</kbd> (Save and Exit) და დაადასტურე "Yes". ლეპტოპი გადაიტვირთება.</p>
+        </div>
+      </div>
+
+      <div class="warn">
+        <b>VMD: ერთხელ გადაწყვიტე და მეტად არ შეცვალო</b>
+        თუ VMD ჩართულია და ვინდოუსს ვაყენებთ, დისკი შეიძლება არ ჩანდეს. თუ VMD-ს ინსტალაციის შემდეგ გამორთავ, ვინდოუსი შეიძლება საერთოდ აღარ ჩაიტვირთოს.
+        ამიტომ: ან ინსტალაციამდე გამორთე, ან საერთოდ არ შეეხო. გადაწყვეტილება პირველ ეტაპზე მიიღე.
+      </div>
+    </section>
+
+    <section class="card" id="install">
+      <h2><span class="sec-num">06</span> ინსტალაცია: ნაბიჯ-ნაბიჯ <span class="sec-time">25-40 წუთი</span></h2>
+      <p class="sub">ფლეშკა ჩასვი, ლეპტოპი ჩართე და ფრთხილად მიჰყევი. ეკრანზე რაც წერია, ზუსტად იგივეს ვაკეთებთ.</p>
+
+      <div class="step">
+        <div class="bubble">1</div>
+        <div>
+          <h4>ჩართე boot menu: F12</h4>
+          <p>ფლეშკა ჩასვი ლეპტოპში, ჩართე და სწრაფად, განმეორებით დააჭირე <kbd>F12</kbd>-ს. გამოჩნდება ჩატვირთვის მოწყობილობების სია.</p>
+          <p>აირჩიე ის, რომლის დასაწყისში წერია <strong>UEFI:</strong> და შემდეგ შენი ფლეშკის სახელი.</p>
+          <p class="hint">თუ ფლეშკა სიაში არ არის: ჩასვი სხვა USB პორტში (მარცხენა მხარეს), გამორთე "Fast Boot" BIOS-ში და სცადე თავიდან.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">2</div>
+        <div>
+          <h4>თუ გამოჩნდა "Press any key to boot from USB"</h4>
+          <p>სწრაფად დააჭირე რომელიმე კლავიშს (მაგალითად Space). თუ ვერ მოასწარი და ისევ ჩვეულებრივად ჩაიტვირთა, გამორთე და გაიმეორე.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">3</div>
+        <div>
+          <h4>ენა და კლავიატურა</h4>
+          <p>Language: <strong>English (United States)</strong>. Time and currency format: <strong>United States</strong>. Keyboard: <strong>US</strong>.</p>
+          <p>დააჭირე "Next" და შემდეგ "Install now".</p>
+          <p class="hint">ქართული კლავიატურა პირველ ჩართვაზე დაემატება, მოგვიანებითაც შეიძლება.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">4</div>
+        <div>
+          <h4>"I don't have a product key"</h4>
+          <p>გვერდზე, სადაც გასაღებს ითხოვს, ქვემოთ არის პატარა ბმული: <strong>"I don't have a product key"</strong>. დააჭირე მას.</p>
+          <p class="hint">გასაღები მოგვიანებით, აქტივაციის დროს ჩავწერთ. ეს არ ზღუდავს ინსტალაციას.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">5</div>
+        <div>
+          <h4>აირჩიე გამოცემა: Windows 11 Pro</h4>
+          <p>გამოჩნდება სია: Home, Pro, Pro N და ა.შ. აირჩიე <strong>Windows 11 Pro</strong> (არა N ვერსია, არა Home).</p>
+          <p class="hint">თუ სია არ გამოჩნდა და პირდაპირ გააგრძელა, ISO ერთგამოცემიანია. მაშინ ვნახავთ აქტივაციის დროს რომელია და საჭიროებისამებრ შევცვლით.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">6</div>
+        <div>
+          <h4>მიიღე ლიცენზიის პირობები</h4>
+          <p>მონიშნე "I accept the Microsoft Software License Terms" და დააჭირე "Next".</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">7</div>
+        <div>
+          <h4>აირჩიე "Custom: Install Windows only (advanced)"</h4>
+          <p>არა "Upgrade". ჩვენ სუფთა დაყენება გვინდა.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">8</div>
+        <div>
+          <h4>წაშალე ძველი დანაყოფები</h4>
+          <p>გამოჩნდება დისკების სია. იქ იქნება FreeDOS-ის დანაყოფები (რამდენიმე პატარა ჩანაწერი).</p>
+          <p>თითოეულზე დააჭირე და აირჩიე <strong>"Delete"</strong>, სანამ დარჩება მხოლოდ ერთი ჩანაწერი: <strong>"Drive 0 Unallocated Space"</strong> (დაახლოებით 953GB).</p>
+          <div class="warn">
+            <b>ყურადღება</b>
+            "Delete" შლის ყველაფერს ამ დისკზე. ახალ ლეპტოპზე ეს სწორია და უსაფრთხო, რადგან იქ არაფერი გვჭირდება.
+            თუ ოდესმე ხელახლა დააყენებ ვინდოუსს უკვე მომუშავე მანქანაზე, ჯერ პროექტები გადაიტანე გარე დისკზე.
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">9</div>
+        <div>
+          <h4>დაყოფა: ერთი დისკი თუ ორი</h4>
+          <p><strong>უფრო მარტივი და რეკომენდებული:</strong> არაფერი არ დაყო, პირდაპირ დააჭირე "Next" და ვინდოუსი მთელ 1TB-ს დაიკავებს.</p>
+          <p><strong>თუ გვინდა C: და D: ცალ-ცალკე:</strong> აირჩიე "Unallocated Space", დააჭირე "New", ჩაწერე ზომა <code>409600</code> (ეს არის 400GB)
+          და დააჭირე "Apply". დარჩენილ ადგილზე მეორე დანაყოფი შეიქმნება ინსტალაციის შემდეგ, "Disk Management"-ით.</p>
+          <p class="hint">ჩვენ ვირჩევთ პირველ ვარიანტს: ერთი დიდი C: და პროექტების არქივი გარე დისკზე ან ღრუბელში. 1TB სტუდენტური მუშაობისთვის სავსებით საკმარისია.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">10</div>
+        <div>
+          <h4>დაელოდე ინსტალაციას</h4>
+          <p>დააჭირე "Next". ვინდოუსი თვითონ შექმნის საჭირო დანაყოფებს (Recovery, EFI 100MB, MSR, C:) და დაიწყებს კოპირებას.</p>
+          <p>ხანგრძლივობა 10-25 წუთი. რამდენჯერმე გადაიტვირთება და ეკრანზე ლოგო გამოჩნდება.</p>
+          <div class="note">
+            <b>მნიშვნელოვანი</b>
+            პირველი გადატვირთვის შემდეგ <strong>ამოიღე ფლეშკა</strong>, თუ ეკრანზე ისევ "Press any key" გამოჩნდა. თუ ფლეშკა ჩარჩა,
+            ინსტალაცია შეიძლება ისევ დასაწყისიდან დაიწყოს.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="oobe">
+      <h2><span class="sec-num">07</span> პირველი ჩართვა (OOBE) <span class="sec-time">10-15 წუთი</span></h2>
+      <p class="sub">ეს არის ეტაპი, სადაც Microsoft ცდილობს დაგარწმუნოს ანგარიშის შექმნაში. Rufus-ის პარამეტრით ეს პრობლემა მოგვარებულია.</p>
+
+      <div class="step">
+        <div class="bubble">1</div>
+        <div>
+          <h4>რეგიონი და კლავიატურა</h4>
+          <p>Region: <strong>Georgia</strong> (თუ სიაში არ არის, აირჩიე United States, ეს მხოლოდ დროის ფორმატზე მოქმედებს).
+          Keyboard layout: <strong>US</strong>. მეორე კლავიატურის გვერდზე დაამატე <strong>Georgian</strong> (ან გამოტოვე და მერე დავამატებთ).</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">2</div>
+        <div>
+          <h4>ქსელი</h4>
+          <p>თუ Ethernet კაბელი ჩართულია, თვითონ დაუკავშირდება. თუ არა, აირჩიე Wi-Fi და შეიყვანე პაროლი.</p>
+          <p class="hint">21-ე საუკუნის რჩევა: ინსტალაციის დროს კაბელი უფრო საიმედოა, ვიდრე Wi-Fi. დრაივერები ჯერ არ არის დაყენებული და Wi-Fi შეიძლება არ იმუშაოს.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">3</div>
+        <div>
+          <h4>ანგარიში: ლოკალური მომხმარებელი</h4>
+          <p>თუ Rufus-ის პარამეტრი მონიშნული იყო, პირდაპირ გამოჩნდება სახელის ველი. ჩაწერე <strong>Tekla</strong>. პაროლი სურვილისამებრ, მაგრამ სჯობს დააყენო.</p>
+          <div class="details">
+            <details>
+              <summary>თუ მაინც ითხოვს Microsoft-ის ანგარიშს</summary>
+              <p>დააჭირე <kbd>Shift</kbd>+<kbd>F10</kbd> (გაიხსნება შავი ფანჯარა) და ჩაწერე:</p>
+              <pre class="cmd"><code>start ms-cxh:localonly</code></pre>
+              <p>გაიხსნება ლოკალური ანგარიშის შექმნის ფანჯარა. სახელი ჩაწერე და გააგრძელე.</p>
+              <p class="hint">ძველი ბრძანება <code>oobe\bypassnro</code> 26H2-ში ამოღებულია და აღარ იმუშავებს. თუ პირველი ბრძანებაც არ დაეხმარა,
+              შექმენი Microsoft-ის ანგარიში და შემდეგ გადადი ლოკალურზე: Settings / Accounts / Your info / "Sign in with a local account instead".</p>
+            </details>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">4</div>
+        <div>
+          <h4>კონფიდენციალურობა</h4>
+          <p>გამოჩნდება გვერდი რამდენიმე გადამრთველით (Location, Find my device, Diagnostic data, Tailored experiences, Advertising ID).
+          ყველა <strong>გამორთე</strong>. ეს არაფერს აფუჭებს, უბრალოდ ნაკლებ ინფორმაციას აგზავნის.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">5</div>
+        <div>
+          <h4>OneDrive და "Set up for personal use"</h4>
+          <p>თუ შემოგთავაზა OneDrive-ის ავტომატური რეზერვირება, გამოტოვე ან უარი თქვი. მოგვიანებით თვითონ გადაწყვეტს რა სჭირდება.</p>
+          <p>"Let's set up your device" გვერდზე აირჩიე <strong>"Set up as new device"</strong>, არა ძველი კომპიუტერიდან აღდგენა.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">6</div>
+        <div>
+          <h4>მოდი, ვნახოთ რა გვაქვს</h4>
+          <p>დესკტოპი უნდა გამოჩნდეს. ჯერ არაფერს დაეხსნა: პირველი ნაბიჯი განახლებებია.</p>
+        </div>
+      </div>
+
+      <div class="ok">
+        <b>შემოწმება</b>
+        Win+R, ჩაწერე <code>winver</code> და დააჭირე Enter. უნდა დაინახო: Windows 11, Version 26H2, Build 26300.xxx.
+        თუ ასეა, ინსტალაცია წარმატებულია.
+      </div>
+    </section>
+
+    <section class="card" id="drivers">
+      <h2><span class="sec-num">08</span> დრაივერები: თანმიმდევრობა მნიშვნელოვანია <span class="sec-time">30-45 წუთი</span></h2>
+      <p class="sub">დრაივერი არის "თარჯიმანი" ვინდოუსსა და რკინას შორის. არასწორი თანმიმდევრობა იწვევს ჩავარდნებს, ამიტომ ვიცავთ წესრიგს.</p>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>#</th><th>რა ვაყენებთ</th><th>საიდან</th><th>რატომ</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Windows Update (ყველა განახლება, გადატვირთვებით)</td><td>Settings / Windows Update</td><td>უსაფრთხოება და საბაზისო დრაივერები</td></tr>
+            <tr><td>2</td><td>Lenovo Vantage (ან Lenovo System Update)</td><td>Lenovo-ს მხარდაჭერის გვერდი</td><td>BIOS, firmware, Lenovo-ს დრაივერები ერთ ადგილას</td></tr>
+            <tr><td>3</td><td>Intel Chipset Driver</td><td>Lenovo, მოდელის გვერდი</td><td>დედაპლატის კომპონენტების სწორი მუშაობა</td></tr>
+            <tr><td>4</td><td>Intel Graphics Driver</td><td>Lenovo ან Intel</td><td>ინტეგრირებული ვიდეო, ეკრანის სიკაშკაშე, ვიდეო გაშიფვრა</td></tr>
+            <tr><td>5</td><td><strong>NVIDIA Studio Driver</strong></td><td>nvidia.com/drivers (აირჩიე Studio)</td><td>RTX 5080, რენდერი და Adobe/Autodesk სერტიფიკაცია</td></tr>
+            <tr><td>6</td><td>Wi-Fi / LAN დრაივერი</td><td>Lenovo, მოდელის გვერდი</td><td>Wi-Fi 7 და 2.5G Ethernet</td></tr>
+            <tr><td>7</td><td>Audio (Realtek / Nahimic)</td><td>Lenovo</td><td>დინამიკები, მიკროფონი, ყურსასმენები</td></tr>
+            <tr><td>8</td><td>Legion Space</td><td>Lenovo / Microsoft Store</td><td>ვენტილატორი, რეჟიმები, GPU რეჟიმი, განათება</td></tr>
+            <tr><td>9</td><td>BIOS განახლება (თუ ხელმისაწვდომია)</td><td>Lenovo Vantage</td><td>სტაბილურობა და შესრულება, მხოლოდ დამტენით</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note">
+        <b>რატომ Studio და არა Game Ready</b>
+        NVIDIA ორ ტიპის დრაივერს აძლევს. Game Ready ახალ თამაშებზეა ოპტიმიზებული, Studio კი Adobe-ის, Autodesk-ისა და
+        სხვა პროფესიონალური პროგრამებისთვის ტესტირებულია. თეკლას შემთხვევაში Studio არის სწორი არჩევანი: ნაკლები
+        მოულოდნელი ჩავარდნა Photoshop-სა და Revit-ში. თამაშებისთვისაც მშვენივრად მუშაობს.
+      </div>
+
+      <h4>როგორ დავაყენოთ NVIDIA Studio დრაივერი</h4>
+      <div class="step">
+        <div class="bubble">1</div>
+        <div>
+          <h4>გახსენი nvidia.com/drivers</h4>
+          <p>აირჩიე: Product Type <strong>GeForce</strong>, Product Series <strong>GeForce RTX 50 Series (Notebooks)</strong>,
+          Product <strong>GeForce RTX 5080 Laptop GPU</strong>, Operating System <strong>Windows 11</strong>.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">2</div>
+        <div>
+          <h4>გადმოწერის ტიპი: "Studio Driver (SD)"</h4>
+          <p>გვერდზე არის ორი ღილაკი: Game Ready Driver და Studio Driver. აირჩიე <strong>Studio</strong>.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">3</div>
+        <div>
+          <h4>ინსტალაციისას აირჩიე "Custom (Advanced)"</h4>
+          <p>მონიშნე "Perform a clean installation". ეს შლის ძველ კონფიგურაციას და თავიდან აგებს. დაელოდე 5-10 წუთს, ეკრანი შეიძლება
+          რამდენჯერმე ჩაქრეს, ეს ნორმალურია.</p>
+        </div>
+      </div>
+
+      <h4>Lenovo-ს დრაივერების გვერდი</h4>
+      <p>
+        <a href="https://pcsupport.lenovo.com/us/en/products/laptops-and-netbooks/legion-series/legion-pro-7-16iax10h/83f5/downloads" target="_blank" rel="noopener">
+          Legion Pro 7 16IAX10H, მოდელი 83F5, Drivers &amp; Software
+        </a>
+      </p>
+      <p class="hint">ამ გვერდზე აირჩიე Operating System: Windows 11 (64-bit). იქ იქნება: Chipset, Graphics, Audio, Camera, WLAN, BIOS, GPU VBIOS და სხვა.
+      თუ რომელიმე დრაივერი ვერ იპოვე, Lenovo Vantage თვითონ იპოვის და დააყენებს.</p>
+
+      <div class="warn">
+        <b>BIOS განახლების წესი</b>
+        BIOS-ს ვაახლებთ მხოლოდ მაშინ, როცა ლეპტოპი დამტენზეა და ბატარეა 50%-ზე მეტია. განახლების დროს არაფერს არ შეეხო,
+        არ გამორთო, არ ჩაკეტო. თუ პროცესი შეწყდა, მანქანა შეიძლება გაფუჭდეს.
+      </div>
+    </section>
+
+    <section class="card" id="debloat">
+      <h2><span class="sec-num">09</span> Windows-ის გაწმენდა <span class="sec-time">10-30 წუთი</span></h2>
+      <p class="sub">ამ ეტაპს ვაკეთებთ მას შემდეგ, რაც ყველა დრაივერი და განახლება დაყენებულია. თუ რამე გაფუჭდა, ყოველთვის შეიძლება უკან დაბრუნება.</p>
+
+      <h3>საიდან ვიწერთ: ზუსტი მისამართები</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>ხელსაწყო</th><th>ლინკი</th><th>რას ვიწერთ</th><th>შენიშვნა</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Win11Debloat</strong></td>
+              <td class="url">github.com/Raphire/Win11Debloat/releases/latest</td>
+              <td><code>Win11Debloat.zip</code>, დაახლოებით 1MB</td>
+              <td>უფასო, ღია კოდი. Defender ჩართული რჩება. ჩვენი პირველი არჩევანი</td>
+            </tr>
+            <tr>
+              <td><strong>ReviOS Playbook</strong></td>
+              <td class="url">revi.cc/download</td>
+              <td>ფაილი <code>.apbx</code> (მიმდინარე 26.10)</td>
+              <td>უფრო ღრმა გაწმენდა, Defender ითიშება. მხოლოდ თუ ეს ნამდვილად გვინდა</td>
+            </tr>
+            <tr>
+              <td><strong>AME Wizard</strong></td>
+              <td class="url">ameliorated.io</td>
+              <td>Beta ვერსიის ZIP</td>
+              <td>საჭიროა მხოლოდ ReviOS-ის გასაშვებად</td>
+            </tr>
+            <tr>
+              <td>Windows ISO</td>
+              <td class="url">microsoft.com/software-download/windows11<br>ან massgrave.dev/windows_11_links</td>
+              <td><code>.iso</code> ფაილი, დაახლოებით 7GB</td>
+              <td>ეს არის <strong>ორიგინალი</strong> ვინდოუსი, არა გაწმენდილი. გაწმენდა ხდება დაყენების შემდეგ</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="hint">რჩევა: ეს ფაილები ჯერ, სანამ ფლეშკას ჩაწერ, გადაიტანე იმავე ფლეშკაზე. მერე ვინდოუსის დაყენების შემდეგ იქიდან გახსნი და ინტერნეტის ლოდინი არ დაგჭირდება.</p>
+
+      <div class="warn">
+        <b>მანამდე</b>
+        შექმენი აღდგენის წერტილი: Win+R, ჩაწერე <code>SystemPropertiesProtection</code>, გადადი "System Protection" ტაბზე,
+        აირჩიე C: და დააჭირე "Create". სახელი: <code>before-debloat</code>. ეს 30 წამი გადაგარჩენს საათობრივ ნერვიულობას.
+      </div>
+
+      <h3>ვარიანტი 1: Win11Debloat (რეკომენდებული)</h3>
+      <div class="step">
+        <div class="bubble">1</div>
+        <div>
+          <h4>გახსენი PowerShell ადმინისტრატორის უფლებებით</h4>
+          <p>დააჭირე Start-ს, ჩაწერე <code>PowerShell</code>, მარჯვენა ღილაკით დააჭირე და აირჩიე "Run as administrator".</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">2</div>
+        <div>
+          <h4>გაუშვი ერთი ბრძანება</h4>
+          <pre class="cmd"><code>&amp; ([scriptblock]::Create((irm "https://debloat.raphi.re/")))</code></pre>
+          <p class="hint">თუ ბრძანებამ შეცდომა მოგცა, ჩამოწერე პროგრამა ხელით: github.com/Raphire/Win11Debloat/releases/latest, გახსენი ZIP და გაუშვი <code>Win11Debloat.bat</code>.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">3</div>
+        <div>
+          <h4>აირჩიე "Default" რეჟიმი</h4>
+          <p>პროგრამა გთავაზობს რამდენიმე პროფილს. "Default" არის უსაფრთხო არჩევანი: შლის რეკლამებს, Bing-ს ძებნაში,
+          Copilot-ს, ზედმეტ აპებს და თიშავს ტელემეტრიას, მაგრამ Defender-ს და Store-ს არ ეხება.</p>
+          <p class="hint">თუ გინდა უფრო ღრმად, "Custom" რეჟიმში ცალ-ცალკე მონიშნავ ყველა პუნქტს. არასდროს გამორთო "Windows Update" მთლიანად.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">4</div>
+        <div>
+          <h4>გადატვირთე და შეამოწმე</h4>
+          <p>Start მენიუ უნდა გახდეს უფრო სუფთა, ძებნაში Bing-ის რეკლამები აღარ უნდა იყოს, Settings-ში რეკლამები ქრება.</p>
+        </div>
+      </div>
+
+      <div class="ok">
+        <b>Win11Debloat-ის ღირსებები</b>
+        Defender ჩართული რჩება, Windows Update მუშაობს, Store მუშაობს, ყველა ცვლილება შექცევადია და პროგრამა ღია კოდის არის.
+        სტუდენტური მანქანისთვის ეს არის ყველაზე გონივრული არჩევანი.
+      </div>
+
+      <h3>ვარიანტი 2: ReviOS playbook (ღრმა გაწმენდა)</h3>
+      <p>თუ გვინდა "იგივე რევიზია, რაც ლუისთანაა". პროცესი 20-30 წუთს გრძელდება და ბევრად უფრო ღრმად ეხება სისტემას.</p>
+
+      <div class="step">
+        <div class="bubble">1</div>
+        <div>
+          <h4>დაასრულე Windows Update მთლიანად</h4>
+          <p>ყველა განახლება ჩამოწერე და გადატვირთე, სანამ "You're up to date" არ დაინახავ. playbook ამის შემდეგ კეთდება.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">2</div>
+        <div>
+          <h4>ჩამოწერე ორი ფაილი</h4>
+          <p><strong>AME Wizard</strong>: <a href="https://ameliorated.io/" target="_blank" rel="noopener">ameliorated.io</a> (Beta ვერსია).</p>
+          <p><strong>ReviOS Playbook</strong>: <a href="https://revi.cc/download" target="_blank" rel="noopener">revi.cc/download</a>. მიმდინარე ვერსია 26.10 (2026 წლის 9 ოქტომბერი), მხარს უჭერს 26H1 და 26H2-ს.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">3</div>
+        <div>
+          <h4>გახსენი AME Wizard და ჩააგდე playbook</h4>
+          <p>AME Wizard-ის ფანჯარაში ჩააგდე ჩამოწერილი <code>.apbx</code> ფაილი (ან დააჭირე Select და აირჩიე).</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">4</div>
+        <div>
+          <h4>მიჰყევი ეკრანის ინსტრუქციას, მათ შორის Defender-ის გამორთვას</h4>
+          <p>პროგრამა თვითონ გეტყვის როდის უნდა გამორთო Defender და Smart App Control. ეს ნაბიჯი აუცილებელია, თორემ playbook ვერ ჩაიწერება.</p>
+          <p class="hint">თუ შეცდომა "Could not load file or assembly WmiLight" გამოჩნდა: Win+R, <code>windowsdefender://smartapp/</code>, გამორთე Smart App Control და სცადე თავიდან.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">5</div>
+        <div>
+          <h4>აირჩიე პარამეტრები და გაუშვი</h4>
+          <p>ბრაუზერი, ტვიკები, Defender-ის მდგომარეობა, განახლებების პოლიტიკა. მერე "Run" და დაელოდე 5-30 წუთს.</p>
+        </div>
+      </div>
+
+      <div class="danger">
+        <b>მნიშვნელოვანი გაფრთხილება</b>
+        ReviOS playbook Defender-ს თიშავს. ეს ნიშნავს, რომ მანქანას ანტივირუსი აღარ იცავს. თუ თეკლა ხშირად ხსნის უცხო ფაილებს
+        (ტორენტები, "free" პროგრამები, საეჭვო ლინკები), ეს სერიოზული რისკია. ამიტომ:
+      </div>
+      <ul>
+        <li>სტუდენტური მანქანისთვის ჯობია დარჩეს <strong>Win11Debloat</strong> და ჩართული Defender.</li>
+        <li>თუ ReviOS მაინც ავირჩიეთ, მაშინ მინიმუმ უფასო ანტივირუსი დავაყენოთ (მაგალითად Bitdefender Free) ან Defender ხელით ისევ ჩავრთოთ Revision Tool-იდან.</li>
+        <li>არასდროს ჩამოვწეროთ "Windows activator", "key generator", "crack" ტიპის ფაილები, ეს არის მალვარის ნომერ პირველი წყარო.</li>
+      </ul>
+
+      <details>
+        <summary>ვარიანტი 3: ReviOS ISO Injection (მხოლოდ გამოცდილი მომხმარებლისთვის)</summary>
+        <p>
+          ამ მეთოდით playbook თვითონ ISO-ში იდება, ანუ ვინდოუსი პირველივე ჩართვიდან გაწმენდილია. საჭიროა AME Beta,
+          რომელიც თვითონ ჩამოწერს Windows-ის ISO-ს, მასში ჩაწერს playbook-ს და შემდეგ Rufus-ით ფლეშკაზე ვწერთ.
+        </p>
+        <ol>
+          <li>გახსენი AME Beta და დააჭირე "Download ISO", აირჩიე Win 11.</li>
+          <li>დასრულების შემდეგ "Select a Playbook to modify ISO", ჩააგდე ReviOS-ის <code>.apbx</code>.</li>
+          <li>"Configure Options"-ში <strong>აუცილებლად</strong> მონიშნე "Include additional drivers" (Wi-Fi რომ იმუშაოს ინსტალაციის შემდეგ).</li>
+          <li>მომხმარებლის სახელი: <code>Tekla</code>, პაროლი სურვილისამებრ.</li>
+          <li>მიღებული ISO ჩაწერე Rufus-ით, ზუსტად ისე, როგორც მე-4 თავშია აღწერილი.</li>
+        </ol>
+        <p class="hint">ეს მეთოდი ბეტაა და ISO შეიძლება იყოს Microsoft-ის უახლესზე ცოტა ძველი. პირველ ჩართვაზე Windows Update მაინც განაახლებს.</p>
+      </details>
+    </section>
+
+    <section class="card" id="activate">
+      <h2><span class="sec-num">10</span> აქტივაცია: რა არის შესაძლებელი ლეგალურად</h2>
+      <p class="sub">ეს არის ის ნაწილი, სადაც ბევრი "უფასო" ვიდეო ტყუის. ავხსნი მექანიკას და ვთქვათ პირდაპირ რა შეიძლება და რა არა.</p>
+
+      <h3>ჯერ შემოწმება: რა სტატუსშია</h3>
+      <p>Win+R, ჩაწერე <code>winver</code> და ნახე გამოცემა. შემდეგ:</p>
+      <ul>
+        <li>Settings / System / Activation: აქ ან დაინახავ "Windows is activated", ან "Activate Windows".</li>
+        <li>ან PowerShell-ში (ადმინისტრატორი):</li>
+      </ul>
+      <pre class="cmd"><code>slmgr /xpr</code></pre>
+      <p class="hint">თუ პასუხია "The machine is permanently activated", ყველაფერი რიგზეა. თუ "Notification mode", ვინდოუსი არააქტიურია.</p>
+
+      <h3>როგორ შევიყვანოთ გასაღები</h3>
+      <p>როცა ლეგალური გასაღები გვექნება (25 სიმბოლო, ტირეებით დაყოფილი):</p>
+      <ul>
+        <li>გრაფიკულად: Settings / System / Activation / "Change product key" / ჩაწერე და "Next".</li>
+        <li>ან ბრძანებით (ადმინისტრატორის PowerShell):</li>
+      </ul>
+      <pre class="cmd"><code>slmgr /ipk XXXXX-XXXXX-XXXXX-XXXXX-XXXXX
+slmgr /ato</code></pre>
+      <p class="hint">თუ შეცდომა 0xC004F050 გამოჩნდა, გასაღები სხვა გამოცემისთვისაა (მაგალითად Home-ის გასაღები Pro-ზე). გასაღების ტიპი უნდა ემთხვეოდეს გამოცემას.</p>
+
+      <h3>ლეგალური ვარიანტები და ფასები (2026 წლის ნოემბერი)</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>ვარიანტი</th><th>ფასი</th><th>რას ნიშნავს</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Microsoft-ის ოფიციალური მაღაზია, Windows 11 Pro</td>
+              <td>დაახლოებით $199 (მთელი ცხოვრება, ერთი მოწყობილობა)</td>
+              <td>ყველაზე სუფთა ვარიანტი, გარანტირებული ლეგალური</td>
+            </tr>
+            <tr>
+              <td>Microsoft-ის მაღაზია, Windows 11 Home</td>
+              <td>დაახლოებით $139</td>
+              <td>უფრო იაფი, მაგრამ Pro-ს ფუნქციები არ აქვს</td>
+            </tr>
+            <tr>
+              <td>ლოკალური რესელერები (მაგალითად gaming-laptops.ge და მსგავსი)</td>
+              <td>დაახლოებით 60-150 ლარი</td>
+              <td><strong>ნაცრისფერი ბაზარი.</strong> გასაღები შეიძლება იყოს OEM ან volume, რომელიც Microsoft-მა მოგვიანებით გააუქმოს. გარანტია არ არსებობს</td>
+            </tr>
+            <tr>
+              <td>უნივერსიტეტი / Azure Dev Tools for Teaching</td>
+              <td>უფასო, თუ ფაკულტეტი მონაწილეობს</td>
+              <td>ბევრ სკოლას აქვს Education ან Enterprise გასაღებები სტუდენტებისთვის. <strong>პირველი, რაც უნდა ჰკითხოს თეკლამ ფაკულტეტს</strong></td>
+            </tr>
+            <tr>
+              <td>არააქტიური ვინდოუსი</td>
+              <td>0</td>
+              <td>მუშაობს, მაგრამ: ეკრანზე წყლის ნიშანი, პერსონალიზაცია ჩაკეტილია (ფონი, ფერები), პერიოდული შეხსენებები. უსაფრთხოების განახლებები მოდის</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="danger">
+        <b>რასაც არ ვწერ და რატომ</b>
+        "უფასო აქტივაციის" ვიდეოები იყენებენ ხელსაწყოებს, რომლებიც Microsoft-ის ლიცენზირების მექანიზმს უვლიან გვერდს
+        (KMS ემულატორი, HWID სკრიპტი, TSforge და მსგავსი). ეს ლიცენზიის ხელშეკრულების დარღვევაა, ამიტომ ამ ნაბიჯებს არ დავწერ.
+        გარდა ამისა, სწორედ ეს ეკოსისტემაა მალვარის ტოპ წყარო: "activator" პაკეტებში ხშირად ჩაშენებულია მაინერი ან პაროლების მთვრელი.
+        ეს არ არის მორალიზაცია, ეს პრაქტიკული რისკია: ახალ, 3000 ლარიან ლეპტოპზე პაროლები და საბანკო მონაცემები ფასობს მეტს,
+        ვიდრე 200 დოლარიანი ლიცენზია.
+      </div>
+
+      <div class="note">
+        <b>პრაქტიკული გზა</b>
+        1) დღეს დააყენე ვინდოუსი გასაღების გარეშე, ყველაფერი იმუშავებს. 2) ჰკითხე უნივერსიტეტს Education/Enterprise გასაღებზე.
+        3) თუ არა, იყიდე ლეგალური Pro გასაღები (ოფიციალურად ან სანდო რესელერთან). 4) აქტივაცია 2 წუთის საქმეა, ხელახლა დაყენება არ სჭირდება.
+      </div>
+
+      <div class="ok">
+        <b>კარგი ამბავი</b>
+        Windows 11 Pro-ს აქტივაციის გარეშეც შეუძლია AutoCAD-ის, Revit-ის, Adobe-ის და ყველა სხვა პროგრამის გაშვება.
+        ერთადერთი შეზღუდვა გარეგნულია (წყლის ნიშანი და პერსონალიზაცია), ამიტომ სასწავლო პროცესს არაფერი აფერხებს.
+      </div>
+    </section>
+
+    <section class="card" id="apps">
+      <h2><span class="sec-num">11</span> პროგრამები: არქიტექტურა და გრაფიკული დიზაინი <span class="sec-time">2-4 საათი (გადმოწერა)</span></h2>
+      <p class="sub">ყველაფერი, რაც სჭირდება არქიტექტურის სტუდენტს: სად ჩამოვწეროთ ლეგალურად, რომელია უფასო და როგორ მოვაწყოთ GPU.</p>
+
+      <div class="note">
+        <b>წესი ნომერი ერთი</b>
+        პირველი ნაბიჯი ყოველთვის ეს არის: ჰკითხე ფაკულტეტს და უნივერსიტეტის IT-ს რა ლიცენზიები აქვთ. არქიტექტურის სკოლების უმეტესობა
+        გაძლევს Autodesk-ის, Graphisoft-ის და ხშირად Adobe-ის სტუდენტურ ანგარიშს. ეს ოფიციალური გზაა და ყველაზე იაფი.
+      </div>
+
+      <h3>1. ნახაზი და BIM (ძირითადი სამუშაო იარაღები)</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>პროგრამა</th><th>რისთვის</th><th>ლიცენზია</th><th>საიდან</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>AutoCAD</strong></td>
+              <td>2D ნახაზები, გეგმები, კვეთები, დეტალები. არქიტექტურის საფუძველი</td>
+              <td><span class="pill edu">სტუდენტური უფასო</span> 1 წელი, განახლებადი</td>
+              <td><a href="https://www.autodesk.com/education/edu-software/overview" target="_blank" rel="noopener">autodesk.com/education</a></td>
+            </tr>
+            <tr>
+              <td><strong>Revit</strong></td>
+              <td>BIM: 3D მოდელი, საიდანაც ავტომატურად გამოდის გეგმები და ჭრილები</td>
+              <td><span class="pill edu">სტუდენტური უფასო</span></td>
+              <td>იგივე Autodesk Education ანგარიში</td>
+            </tr>
+            <tr>
+              <td><strong>Archicad</strong></td>
+              <td>BIM, განსაკუთრებით პოპულარული ევროპულ სკოლებში</td>
+              <td><span class="pill edu">სტუდენტური უფასო</span> 1 წელი</td>
+              <td><a href="https://myarchicad.graphisoft.com/" target="_blank" rel="noopener">myarchicad.graphisoft.com</a></td>
+            </tr>
+            <tr>
+              <td><strong>SketchUp</strong></td>
+              <td>სწრაფი მასობრივი მოდელირება, კონცეპტუალური ვარიანტები</td>
+              <td><span class="pill paid">ფასდაკლება</span> სტუდენტური გეგმა</td>
+              <td><a href="https://www.sketchup.com/plans-and-pricing" target="_blank" rel="noopener">sketchup.com/plans-and-pricing</a></td>
+            </tr>
+            <tr>
+              <td><strong>Rhino + Grasshopper</strong></td>
+              <td>თავისუფალი ფორმები, პარამეტრული დიზაინი</td>
+              <td><span class="pill edu">90 დღე უფასო</span> + საგანმანათლებლო ფასი</td>
+              <td><a href="https://www.rhino3d.com/" target="_blank" rel="noopener">rhino3d.com</a></td>
+            </tr>
+            <tr>
+              <td><strong>Fusion 360</strong></td>
+              <td>მცირე ობიექტების მოდელირება, ავეჯი, დეტალები</td>
+              <td><span class="pill free">უფასო</span> პირადი/საგანმანათლებლო</td>
+              <td>autodesk.com, იგივე ანგარიში</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>2. ვიზუალიზაცია და რენდერი (სწორედ აქ მუშაობს RTX 5080)</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>პროგრამა</th><th>რისთვის</th><th>ლიცენზია</th><th>საიდან</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Lumion</strong></td>
+              <td>სწრაფი, ლამაზი პრეზენტაციული ვიზუალიზაცია. სტუდენტური ვერსია წყლის ნიშნით</td>
+              <td><span class="pill edu">სტუდენტური უფასო</span> 1 წელი, ყოველწლიურად განახლებადი</td>
+              <td><a href="https://lumion.com/product/students" target="_blank" rel="noopener">lumion.com/product/students</a></td>
+            </tr>
+            <tr>
+              <td><strong>Twinmotion</strong></td>
+              <td>რეალურ დროში ვიზუალიზაცია, Revit/Archicad-თან პირდაპირი კავშირი</td>
+              <td><span class="pill free">უფასო</span> (Epic Games)</td>
+              <td><a href="https://www.twinmotion.com/en-US" target="_blank" rel="noopener">twinmotion.com</a></td>
+            </tr>
+            <tr>
+              <td><strong>D5 Render</strong></td>
+              <td>რეალურ დროში რენდერი, ძალიან კარგი შედეგი RTX-ზე</td>
+              <td><span class="pill free">უფასო ვერსია</span> + ფასიანი</td>
+              <td><a href="https://www.d5render.com/pricing" target="_blank" rel="noopener">d5render.com/pricing</a></td>
+            </tr>
+            <tr>
+              <td><strong>Enscape</strong></td>
+              <td>Revit/SketchUp-ის შიგნიდან რეალურ დროში ვიზუალიზაცია</td>
+              <td><span class="pill paid">სტუდენტური ფასიანია</span></td>
+              <td><a href="https://enscape3d.com/pricing/" target="_blank" rel="noopener">enscape3d.com/pricing</a></td>
+            </tr>
+            <tr>
+              <td><strong>Blender</strong></td>
+              <td>სრულყოფილი 3D და ანიმაცია, Cycles რენდერი</td>
+              <td><span class="pill free">სრულიად უფასო</span>, ღია კოდი</td>
+              <td><a href="https://www.blender.org/download/" target="_blank" rel="noopener">blender.org/download</a></td>
+            </tr>
+            <tr>
+              <td><strong>V-Ray / Corona</strong></td>
+              <td>ფოტორეალისტური რენდერი 3ds Max-ში, Revit-ში, SketchUp-ში</td>
+              <td><span class="pill edu">საგანმანათლებლო</span> Chaos-ის პროგრამით</td>
+              <td>chaos.com, საგანმანათლებლო გვერდი</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>3. გრაფიკული დიზაინი</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>პროგრამა</th><th>რისთვის</th><th>ლიცენზია</th><th>საიდან</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Adobe Creative Cloud</strong><br><span class="mini">Photoshop, Illustrator, InDesign, Acrobat</span></td>
+              <td>პოსტერები, პრეზენტაციები, კოლაჟი, ბეჭდვითი მასალა</td>
+              <td><span class="pill paid">სტუდენტური</span> დაახლოებით $19.99/თვე პირველი წელი (სტანდარტული $59.99)</td>
+              <td><a href="https://www.adobe.com/creativecloud/plans.html" target="_blank" rel="noopener">adobe.com/creativecloud/plans</a>, აირჩიე "Students and teachers"</td>
+            </tr>
+            <tr>
+              <td><strong>Affinity</strong></td>
+              <td>Photoshop + Illustrator + InDesign-ის ანალოგი ერთ აპლიკაციაში</td>
+              <td><span class="pill free">უფასო</span> 2025 წლიდან Canva-ს მფლობელობაში, სრულად უფასო</td>
+              <td><a href="https://www.affinity.studio/" target="_blank" rel="noopener">affinity.studio</a></td>
+            </tr>
+            <tr>
+              <td><strong>Figma</strong></td>
+              <td>გვერდითი პრეზენტაციები, დიაგრამები, გუნდური მუშაობა</td>
+              <td><span class="pill free">უფასო</span> საგანმანათლებლო</td>
+              <td><a href="https://www.figma.com/education/" target="_blank" rel="noopener">figma.com/education</a></td>
+            </tr>
+            <tr>
+              <td><strong>Krita / GIMP / Inkscape</strong></td>
+              <td>მხატვრობა, ფოტო დამუშავება, ვექტორული გრაფიკა</td>
+              <td><span class="pill free">უფასო</span>, ღია კოდი</td>
+              <td>krita.org, gimp.org, inkscape.org</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>4. საოფისე და დამხმარე</h3>
+      <ul>
+        <li><strong>Microsoft 365</strong>: უნივერსიტეტის ანგარიშით ხშირად უფასოა (<a href="https://www.microsoft.com/en-us/microsoft-365/education" target="_blank" rel="noopener">microsoft.com/microsoft-365/education</a>). Word, Excel, PowerPoint პრეზენტაციებისთვის.</li>
+        <li><strong>PDF24 Creator</strong>: უფასო PDF ინსტრუმენტები, ბეჭდვა, გაერთიანება, შეკუმშვა.</li>
+        <li><strong>Bluebeam Revu</strong>: PDF მარკირება, პროფესიონალური პრაქტიკა (ფასიანი, სტუდენტური ვარიანტი არსებობს).</li>
+        <li><strong>7-Zip</strong>: ZIP/RAR არქივები, უფასო.</li>
+        <li><strong>Everything</strong>: ფაილების მყისიერი ძებნა დისკზე, უფასო. პროექტებში ნავიგაციას ძალიან აადვილებს.</li>
+        <li><strong>PowerToys</strong>: Microsoft-ის უფასო ხელსაწყოების ნაკრები (FancyZones ფანჯრების მოწყობა, Color Picker).</li>
+        <li><strong>VLC</strong>: ვიდეო/აუდიო, უფასო.</li>
+      </ul>
+
+      <div class="warn">
+        <b>საიდან არ ჩამოვწეროთ</b>
+        "AutoCAD 2026 full free download", "crack", "keygen", "torrent" ტიპის ლინკები. არქიტექტურის სტუდენტების კომპიუტერებზე
+        ყველაზე ხშირი ინფექციის წყარო სწორედ "გატეხილი" CAD პროგრამებია. ყველა ზემოთ ჩამოთვლილ პროგრამას აქვს ლეგალური
+        სტუდენტური გზა, უბრალოდ რეგისტრაცია სჭირდება.
+      </div>
+
+      <h3>5. სტუდენტური ვერიფიკაცია: როგორ მივიღოთ</h3>
+      <div class="step">
+        <div class="bubble">A</div>
+        <div>
+          <h4>Autodesk (AutoCAD, Revit, 3ds Max, Fusion)</h4>
+          <p>დარეგისტრირდი autodesk.com/education-ზე, აირჩიე "Student", მიუთითე უნივერსიტეტი, სპეციალობა და დასრულების თარიღი.
+          ვერიფიკაცია ხდება სკოლის მონაცემებით ან სტუდენტური ბარათის ატვირთვით. დადასტურების შემდეგ 1 წლიანი ლიცენზია აქტიურდება,
+          ყოველწლიურად განახლებადია სანამ სწავლობს.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">B</div>
+        <div>
+          <h4>Graphisoft (Archicad)</h4>
+          <p>შექმენი Graphisoft ID, გახსენი myarchicad.graphisoft.com, აირჩიე "Get a free license", შეავსე სტუდენტური მონაცემები.
+          მიიღებ 1 წლიან სერიულ ნომერს, რომელსაც Archicad-ში "Help / License Manager"-იდან შეიყვან.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">C</div>
+        <div>
+          <h4>Adobe</h4>
+          <p>აირჩიე "Creative Cloud All Apps, Students and teachers". ვერიფიკაცია ხდება სტუდენტური ელფოსტით ან დოკუმენტით.
+          თუ უნივერსიტეტს აქვს კამპუსური ლიცენზია, IT-ს ჰკითხე, ხშირად უფასოდ გაძლევენ.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">D</div>
+        <div>
+          <h4>Lumion / Enscape / Ренდერ პროგრამები</h4>
+          <p>Lumion-ის სტუდენტური ლიცენზია უფასოა, მაგრამ რენდერს წყლის ნიშანი აქვს. Enscape-ის სტუდენტური ლიცენზია ფასიანია,
+          ამიტომ ჯერ Twinmotion ან D5 სცადოს, ორივე უფასოა და RTX 5080-ზე შესანიშნავ შედეგს იძლევა.</p>
+        </div>
+      </div>
+
+      <h3>6. დისკის ადგილი: რამდენს იკავებს</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>პაკეტი</th><th>დაახლოებით</th></tr></thead>
+          <tbody>
+            <tr><td>Windows 11 + განახლებები + ბრაუზერი</td><td>35-45GB</td></tr>
+            <tr><td>AutoCAD</td><td>10-15GB</td></tr>
+            <tr><td>Revit + კომპონენტები</td><td>25-35GB</td></tr>
+            <tr><td>Archicad</td><td>5-8GB</td></tr>
+            <tr><td>SketchUp + Rhino</td><td>5-10GB</td></tr>
+            <tr><td>Adobe Creative Cloud (4-5 აპი)</td><td>25-35GB</td></tr>
+            <tr><td>Lumion ან Twinmotion ან D5</td><td>20-40GB</td></tr>
+            <tr><td>Blender, Office, დანარჩენი</td><td>10-15GB</td></tr>
+            <tr><td><strong>სულ</strong></td><td><strong>150-200GB</strong>, ანუ 1TB-ის მეხუთედი</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="hint">ადგილი უხვად რჩება პროექტებისთვის, კეშისთვის და Scratch დისკისთვის (Photoshop/After Effects იყენებს დროებით ფაილებს).</p>
+
+      <h3>7. GPU-ს გამართვა თითოეული პროგრამისთვის</h3>
+      <p>ეს ნაწილი განსაზღვრავს მუშაობს პროგრამა სწრაფად თუ ნელა. ლეპტოპს ორი ვიდეო აქვს: ინტეგრირებული Intel და ცალკე RTX 5080.</p>
+      <ol>
+        <li>Settings / System / Display / Graphics. დაამატე პროგრამები: <code>acad.exe</code>, <code>Revit.exe</code>, <code>ArchiCAD.exe</code>,
+        <code>Photoshop.exe</code>, <code>Illustrator.exe</code>, <code>Lumion.exe</code>, <code>Twinmotion.exe</code>, <code>D5 Render.exe</code>.
+        თითოეულისთვის აირჩიე <strong>High performance</strong>.</li>
+        <li>NVIDIA Control Panel / Manage 3D settings / Program Settings: იგივე პროგრამებისთვის აირჩიე "High-performance NVIDIA processor".</li>
+        <li>Legion Space: "Hybrid Mode" სამუშაოსთვის საკმარისია, მაგრამ გრძელი რენდერის დროს შეგიძლია "Discrete GPU mode" ჩართო (უფრო მეტს იხარჯავს ბატარეა).</li>
+        <li>Revit: File / Options / Graphics, დატოვე "Use Hardware Acceleration" ჩართული.</li>
+        <li>AutoCAD: Options / System / Graphics Performance, "Hardware Acceleration" ჩართული. თუ ნახაზი ნელია, გამორთე "High quality geometry".</li>
+        <li>Photoshop: Edit / Preferences / Performance, GPU-ს ჩართვა და RAM-ის დაახლოებით 70% (არა 100%).</li>
+      </ol>
+
+      <div class="ok">
+        <b>რას ნიშნავს 16GB ვიდეო მეხსიერება</b>
+        Lumion-ში დიდი სცენა, 4K ტექსტურები და D5-ის რეი-ტრეისინგი თავისუფლად ეტევა. ეს არის ზუსტად ის უპირატესობა,
+        რის გამოც არქიტექტურის სტუდენტს ძლიერი ვიდეო ბარათი სჭირდება: არა თამაშებისთვის, არამედ რენდერისთვის და დიდი მოდელებისთვის.
+      </div>
+    </section>
+
+    <section class="card" id="tuning">
+      <h2><span class="sec-num">12</span> მოწყობა სამუშაოდ <span class="sec-time">30-40 წუთი</span></h2>
+      <p class="sub">სისტემა დაყენებულია. ახლა ვაქციოთ ისეთ მანქანად, რომელიც ყოველდღე კომფორტულად იმუშავებს.</p>
+
+      <h3>ეკრანი: რაც პირდაპირ ჩანს</h3>
+      <ul>
+        <li><strong>240Hz ჩართვა:</strong> Settings / System / Display / Advanced display. თუ 60Hz-ზე დგას, შეცვალე 240Hz-ზე. ეს ყველაზე შესამჩნევი ცვლილებაა.</li>
+        <li><strong>მასშტაბი:</strong> 2560x1600 ეკრანზე 150% არის კომფორტული, ტექსტი დიდი და მკვეთრია.</li>
+        <li><strong>HDR:</strong> ჩართე მხოლოდ ვიდეოსა და თამაშისთვის. გრაფიკული სამუშაოსთვის SDR უფრო სტაბილურია ფერების აღქმაში.</li>
+        <li><strong>ფერები:</strong> ეკრანი ქარხნულად კალიბრირებულია და 100% DCI-P3-ს ფარავს. თუ სამუშაო ბეჭდვითია (პოსტერი, პორტფოლიო),
+        Legion Space-ში ან Intel-ის პანელში გადართე <strong>sRGB</strong> პროფილზე, თორემ ბეჭდვისას ფერები გაუფერულდება.</li>
+        <li><strong>OLED-ის მოვლა:</strong> ჩართე მუქი თემა, ავტომატური დამალვა taskbar-ისთვის, ეკრანის დამცავი 5 წუთზე.
+        სტატიკური კადრი დიდხანს არ დატოვო (მაგალითად ერთი ფანჯარა 2 საათი).</li>
+      </ul>
+
+      <h3>Legion Space: ვენტილატორი, რეჟიმი, ბატარეა</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>პარამეტრი</th><th>მნიშვნელობა</th><th>რატომ</th></tr></thead>
+          <tbody>
+            <tr><td>Performance mode</td><td>Balanced (სამუშაოსთვის), Performance (რენდერისთვის)</td><td>Quiet რეჟიმში პროცესორი ზღუდავს სიხშირეს</td></tr>
+            <tr><td>GPU working mode</td><td>Hybrid (ყოველდღე), dGPU (მხოლოდ რენდერის დროს)</td><td>Hybrid ნაკლებს ხარჯავს, dGPU მაქსიმალურ ძალას იძლევა</td></tr>
+            <tr><td>Battery conservation</td><td>ON, ზღვარი 80%</td><td>თუ ლეპტოპი ძირითადად დამტენზე მუშაობს, ბატარეა დიდხანს იცოცხლებს</td></tr>
+            <tr><td>Fan curve</td><td>Balanced ან Custom</td><td>სტუდენტურ აუდიტორიაში ხმაური ნაკლები იყოს</td></tr>
+            <tr><td>Keyboard backlight</td><td>სურვილისამებრ</td><td>ღამით მუშაობისას კომფორტი</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Windows-ის ყოველდღიური პარამეტრები</h3>
+      <ul>
+        <li><strong>Power mode</strong>: Settings / System / Power. დამტენზე "Best performance", ბატარეაზე "Balanced".</li>
+        <li><strong>Startup apps</strong>: Task Manager / Startup apps. გამორთე ყველაფერი, რაც აუცილებელი არ არის (Steam, Adobe, OneDrive შეიძლება დარჩეს).</li>
+        <li><strong>Storage Sense</strong>: ჩართე, რომ დროებითი ფაილები თვითონ გაიწმინდოს.</li>
+        <li><strong>Sleep</strong>: დამტენზე 30 წუთი, ბატარეაზე 10 წუთი. ეკრანი ცალკე, 5 წუთი.</li>
+        <li><strong>Georgian keyboard</strong>: Settings / Time &amp; Language / Language &amp; region / Add a language / Georgian. შემდეგ Win+Space-ით გადართვა.</li>
+        <li><strong>Windows Update</strong>: დატოვე ავტომატური, მაგრამ გამორთე "Restart as soon as possible" სამუშაო საათებში.</li>
+      </ul>
+
+      <h3>უსაფრთხოება და სარეზერვო ასლები</h3>
+      <div class="step">
+        <div class="bubble">1</div>
+        <div>
+          <h4>BitLocker</h4>
+          <p>Settings / Privacy &amp; security / Device encryption ან Control Panel / BitLocker. ჩართე და <strong>აუცილებლად შეინახე აღდგენის გასაღები</strong>:
+          ან Microsoft-ის ანგარიშში, ან დაბეჭდე და დედის სახლში დატოვე, ან ტელეფონში შეინახე ფოტოდ.</p>
+          <div class="danger">
+            <b>თუ გასაღები დაიკარგა</b>
+            დაშიფრული დისკიდან მონაცემებს ვერავინ ამოიღებს, არც შენ. ეს არის BitLocker-ის მთავარი რისკი და ამავდროულად მისი ღირებულება.
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">2</div>
+        <div>
+          <h4>აღდგენის წერტილები</h4>
+          <p>System Protection ჩართე C: დისკზე, მინიმუმ 5% სივრცით. წერტილი შეიქმნას დრაივერების და პროგრამების დაყენებამდე.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="bubble">3</div>
+        <div>
+          <h4>პროექტების რეზერვი (ყველაზე მნიშვნელოვანი)</h4>
+          <p>არქიტექტურის პროექტი ერთ ფაილში არ ინახება: Revit/Archicad ქმნის საქაღალდეს ათასობით ფაილით. ამიტომ:</p>
+          <ul>
+            <li>პროექტები ინახებოდეს ერთ საქაღალდეში, მაგალითად <code>C:\Projects</code>.</li>
+            <li>OneDrive ან Google Drive სინქრონიზდებოდეს ამ საქაღალდეზე (სტუდენტურ ანგარიშს ხშირად 1TB აქვს).</li>
+            <li>დამატებით, კვირაში ერთხელ გარე SSD-ზე კოპირება. ორი დამოუკიდებელი რეზერვი არის სტანდარტი.</li>
+            <li>Revit-ის "Save As" ყოველდღე ახალი თარიღით, რომ ერთი დაზიანებული ფაილი ყველაფერს არ წაიღოს.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ok">
+        <b>ოქროს წესი</b>
+        ერთი დისკი, ერთი ლეპტოპი, ერთი ოთახი: ეს არ არის რეზერვი. რეზერვი არის მაშინ, როცა ფაილი ორ სხვადასხვა ფიზიკურ ადგილასაა.
+      </div>
+    </section>
+
+    <section class="card" id="accept">
+      <h2><span class="sec-num">13</span> მიღების ჩექლისტი: როდის ვთვლით რომ დასრულდა</h2>
+      <p class="sub">ეს არის ობიექტური კრიტერიუმები. თუ ყველა მონიშნულია, მანქანა მზადაა სასწავლო სამუშაოსთვის.</p>
+
+      <h4>სისტემა</h4>
+      <label class="check"><input type="checkbox" data-k="a1"><span><code>winver</code> აჩვენებს Windows 11, Version 26H2, Build 26300.x</span></label>
+      <label class="check"><input type="checkbox" data-k="a2"><span>Settings / System / About: RAM 32GB, პროცესორი Ultra 9 275HX, სისტემის ტიპი 64-bit</span></label>
+      <label class="check"><input type="checkbox" data-k="a3"><span>Task Manager / Performance: დისკი 1TB ჩანს, ყველა ბირთვი აქტიურია</span></label>
+      <label class="check"><input type="checkbox" data-k="a4"><span>Windows Update: "You're up to date", დამატებითი განახლებებიც დაყენებულია</span></label>
+      <label class="check"><input type="checkbox" data-k="a5"><span>Activation: სტატუსი შემოწმებულია (აქტიური ან ცნობიერად გადადებული)</span></label>
+
+      <h4>დრაივერები</h4>
+      <label class="check"><input type="checkbox" data-k="b1"><span>Device Manager-ში არც ერთი ყვითელი სამკუთხედი არ არის</span></label>
+      <label class="check"><input type="checkbox" data-k="b2"><span>Display adapters-ში ჩანს ორივე: Intel Graphics და NVIDIA GeForce RTX 5080</span></label>
+      <label class="check"><input type="checkbox" data-k="b3"><span>NVIDIA Studio დრაივერი დააყენე (არა Game Ready) და ვერსია ჩანს NVIDIA App-ში</span></label>
+      <label class="check"><input type="checkbox" data-k="b4"><span>Wi-Fi მუშაობს, 5GHz ან 6GHz ქსელზე დაკავშირებულია; Bluetooth მუშაობს</span></label>
+      <label class="check"><input type="checkbox" data-k="b5"><span>ხმა მუშაობს: დინამიკები, მიკროფონი, ყურსასმენები</span></label>
+      <label class="check"><input type="checkbox" data-k="b6"><span>Lenovo Vantage და Legion Space დააყენე, BIOS განახლება შემოწმდა</span></label>
+
+      <h4>ეკრანი და შესრულება</h4>
+      <label class="check"><input type="checkbox" data-k="c1"><span>240Hz რეჟიმი ჩართულია (Advanced display)</span></label>
+      <label class="check"><input type="checkbox" data-k="c2"><span>მასშტაბი 150%, ტექსტი მკვეთრია</span></label>
+      <label class="check"><input type="checkbox" data-k="c3"><span>ბენჩმარკი გაშვებულია (Cinebench ან Blender) და შედეგი ნორმაშია</span></label>
+      <label class="check"><input type="checkbox" data-k="c4"><span>დატვირთვისას ტემპერატურა გონივრულია: CPU 95°C-მდე, GPU 80°C-მდე</span></label>
+      <label class="check"><input type="checkbox" data-k="c5"><span>უსაქმურ რეჟიმში ვენტილატორი არ ღრიალებს, ლეპტოპი არ ცხელდება</span></label>
+
+      <h4>პროგრამები</h4>
+      <label class="check"><input type="checkbox" data-k="d1"><span>AutoCAD იხსნება, ნახაზი იხსნება, Hardware Acceleration ჩართულია</span></label>
+      <label class="check"><input type="checkbox" data-k="d2"><span>Revit იხსნება, მცირე მოდელი იხსნება და 3D ხედი მუშაობს</span></label>
+      <label class="check"><input type="checkbox" data-k="d3"><span>Photoshop ან Affinity იხსნება, GPU აქსელერაცია ჩართულია</span></label>
+      <label class="check"><input type="checkbox" data-k="d4"><span>Lumion / Twinmotion / D5 გაშვებულია და სატესტო სცენა რენდერდება</span></label>
+      <label class="check"><input type="checkbox" data-k="d5"><span>ყველა პროგრამა ლეგალური წყაროდანაა (არა "crack")</span></label>
+
+      <h4>უსაფრთხოება და რეზერვი</h4>
+      <label class="check"><input type="checkbox" data-k="e1"><span>BitLocker ჩართულია და აღდგენის გასაღები შენახულია</span></label>
+      <label class="check"><input type="checkbox" data-k="e2"><span>აღდგენის წერტილი შექმნილია (before-debloat ან after-setup)</span></label>
+      <label class="check"><input type="checkbox" data-k="e3"><span>პროექტების საქაღალდე ღრუბელზე ან გარე დისკზე სინქრონიზდება</span></label>
+      <label class="check"><input type="checkbox" data-k="e4"><span>ქართული კლავიატურა დამატებულია და მუშაობს</span></label>
+      <label class="check"><input type="checkbox" data-k="e5"><span>მეგობარს გადაეცა: ეს დოკუმენტი, Windows-ის გასაღები (თუ აქტიურია) და BitLocker-ის გასაღები</span></label>
+    </section>
+
+    <section class="card" id="trouble">
+      <h2><span class="sec-num">14</span> პრობლემები და გადაწყვეტები</h2>
+      <p class="sub">ყველაზე ხშირი სიტუაციები. ჯერ იპოვე სიმპტომი, მერე გამოიყენე გამოსავალი.</p>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>სიმპტომი</th><th>მიზეზი</th><th>გამოსავალი</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>ფლეშკა არ ჩანს F12 მენიუში</td>
+              <td>ფლეშკა MBR-ად არის ჩაწერილი, ან Fast Boot ჩართულია, ან პორტი არ მუშაობს</td>
+              <td>ხელახლა ჩაწერე Rufus-ით GPT/UEFI პარამეტრებით, ჩასვი სხვა პორტში, BIOS-ში გამორთე Fast Boot</td>
+            </tr>
+            <tr>
+              <td>"This PC can't run Windows 11"</td>
+              <td>Secure Boot ან TPM გამორთულია</td>
+              <td>BIOS-ში: Secure Boot Enabled, Intel PTT Enabled. შემდეგ თავიდან სცადე</td>
+            </tr>
+            <tr>
+              <td>"We couldn't find any drives"</td>
+              <td>Intel VMD ჩართულია და ინსტალერს დრაივერი არ აქვს</td>
+              <td>ან გამორთე VMD BIOS-ში, ან ჩამოწერე Intel RST დრაივერი, გადაიტანე ფლეშკაზე და "Load driver"-ით მიუთითე საქაღალდე</td>
+            </tr>
+            <tr>
+              <td>ინსტალაცია ისევ თავიდან იწყება</td>
+              <td>ფლეშკა ჩარჩა და ისევ მისგან ჩაიტვირთა</td>
+              <td>პირველივე გადატვირთვისას ამოიღე ფლეშკა, ან BIOS-ში შეცვალე ჩატვირთვის რიგი</td>
+            </tr>
+            <tr>
+              <td>OOBE ითხოვს Microsoft-ის ანგარიშს</td>
+              <td>Rufus-ის პარამეტრი არ იყო მონიშნული</td>
+              <td>Shift+F10, ჩაწერე <code>start ms-cxh:localonly</code>. თუ არ დაეხმარა, შექმენი ანგარიში და შემდეგ გადადი ლოკალურზე</td>
+            </tr>
+            <tr>
+              <td>Wi-Fi არ ჩანს ინსტალაციის შემდეგ</td>
+              <td>Wi-Fi დრაივერი ჯერ არ არის დაყენებული</td>
+              <td>ჩართე Ethernet კაბელი და გაუშვი Windows Update, ან სხვა კომპიუტერიდან ჩამოწერე Wi-Fi დრაივერი USB-ით</td>
+            </tr>
+            <tr>
+              <td>NVIDIA დრაივერის შემდეგ შავი ეკრანი ან ჩავარდნა</td>
+              <td>ძველი დრაივერის ნარჩენები, ან არასწორი ვერსია</td>
+              <td>ჩატვირთე Safe Mode, გაუშვი DDU (Display Driver Uninstaller), შემდეგ დააყენე Lenovo-ს ან NVIDIA Studio დრაივერი</td>
+            </tr>
+            <tr>
+              <td>ხმა არ მუშაობს</td>
+              <td>Realtek/Nahimic დრაივერი აკლია ან არასწორია</td>
+              <td>Lenovo-ს გვერდიდან Audio დრაივერი, გადატვირთვა, Sound settings-ში სწორი მოწყობილობის არჩევა</td>
+            </tr>
+            <tr>
+              <td>აქტივაციის შეცდომა 0xC004F050</td>
+              <td>გასაღები სხვა გამოცემისთვისაა (Home გასაღები Pro-ზე)</td>
+              <td>შეამოწმე გამოცემა <code>winver</code>-ით და გამოიყენე შესაბამისი გასაღები</td>
+            </tr>
+            <tr>
+              <td>Windows Update ფუჭდება გაწმენდის შემდეგ</td>
+              <td>ReviOS-ის პოლიტიკებმა განახლება შეზღუდა</td>
+              <td>Revision Tool-იდან ჩართე Windows Update, ან ადმინისტრატორის cmd-ში: <code>DISM /Online /Cleanup-Image /RestoreHealth</code> და <code>SFC /scannow</code></td>
+            </tr>
+            <tr>
+              <td>AME Wizard: "Could not load file or assembly WmiLight"</td>
+              <td>Smart App Control ჩართულია</td>
+              <td>Win+R, <code>windowsdefender://smartapp/</code>, გამორთე, გადატვირთე და სცადე თავიდან</td>
+            </tr>
+            <tr>
+              <td>ჩატვირთვისას ითხოვს BitLocker-ის აღდგენის გასაღებს</td>
+              <td>BIOS-ის ან რკინის ცვლილება (Secure Boot, RAM, დისკი)</td>
+              <td>შეიყვანე შენახული გასაღები. მომავალში BIOS-ის განახლებამდე შეაჩერე BitLocker</td>
+            </tr>
+            <tr>
+              <td>უსაქმურ რეჟიმში ცხელდება და ხმაურობს</td>
+              <td>Performance რეჟიმი, ფონური პროცესები, ან ინდექსირება</td>
+              <td>Legion Space: Balanced ან Quiet, Task Manager-ში ნახე რა ჭამს CPU-ს, გამორთე ზედმეტი startup აპი</td>
+            </tr>
+            <tr>
+              <td>AutoCAD ამბობს რომ Hardware Acceleration მიუწვდომელია</td>
+              <td>პროგრამა ინტეგრირებულ ვიდეოზე მუშაობს</td>
+              <td>Windows Graphics settings-ში acad.exe-ს მიეცი High performance, ან Legion Space-ში ჩართე dGPU რეჟიმი</td>
+            </tr>
+            <tr>
+              <td>რენდერი მოსალოდნელზე ნელია</td>
+              <td>დამტენზე არ არის, ან Balanced/Quiet რეჟიმი, ან თერმული ლიმიტი</td>
+              <td>დამტენზე შეაერთე, Legion Space: Performance, შეამოწმე ტემპერატურა HWiNFO-თი</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card" id="videos">
+      <h2><span class="sec-num">15</span> ვიდეოები, რომლებიც ნამდვილად გვეხმარება</h2>
+      <p class="sub">გადამოწმებული არხები და კონკრეტული ვიდეოები. უყურე იმავე თანმიმდევრობით, როგორც ეს დოკუმენტია აწყობილი.</p>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>ვიდეო</th><th>ვინ აკეთებს</th><th>რას ხსნის</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="https://www.youtube.com/watch?v=zvB-xorBCRE" target="_blank" rel="noopener">How to Install Windows 11 (Clean Install) Step by Step [2026 Guide]</a></td>
+              <td>Ksk Royal</td>
+              <td>სრული პროცესი: ფლეშკა, BIOS, ინსტალაცია, გამოცემის არჩევა</td>
+            </tr>
+            <tr>
+              <td><a href="https://www.youtube.com/watch?v=A8mTCt6I7O4" target="_blank" rel="noopener">How to Clean Install Windows 11 26H2</a></td>
+              <td>Kapil Arya (MVP)</td>
+              <td>ზუსტად ჩვენი ვერსია, 9 წუთი, ეკრანის ჩვენებით</td>
+            </tr>
+            <tr>
+              <td><a href="https://www.youtube.com/watch?v=4kMXILiczOY" target="_blank" rel="noopener">Install Windows 11 26H2 on ANY PC (Rufus Bypass)</a></td>
+              <td>Britec09</td>
+              <td>Rufus-ის პარამეტრები დეტალურად. ჩვენ ხრიკები არ გვჭირდება, მაგრამ Rufus-ის ნაბიჯები კარგადაა ნაჩვენები</td>
+            </tr>
+            <tr>
+              <td><a href="https://www.youtube.com/watch?v=uElWqzjC1eI" target="_blank" rel="noopener">Stop Microsoft Forcing Online Accounts on Windows 11</a></td>
+              <td>David Bombal</td>
+              <td>ლოკალური ანგარიშის ყველა მეთოდი, ახლებიც და ძველებიც</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note">
+        <b>ქართულად ძებნა</b>
+        YouTube-ზე ჩაწერე: "ვინდოუს 11 ინსტალაცია ფლეშკიდან", "ვინდოუსის დაყენება ფლეშკით", "Windows 11 ქართულად".
+        ხარისხი სხვადასხვაა, ამიტომ ვიდეოს ნახვისას შეადარე ამ დოკუმენტს: თუ ვიდეო გირჩევს "გატეხილი" ISO-ს ჩამოწერას ან აქტივატორს,
+        გამოტოვე ის ნაწილი.
+      </div>
+
+      <div class="warn">
+        <b>რას არ ვუყუროთ</b>
+        ვიდეოები სათაურით "Windows 11 Pro გააქტიურება სამუდამოდ უფასოდ" იყენებენ აქტივატორებს. გარდა იმისა, რომ ეს ლიცენზიის
+        დარღვევაა, ასეთ ვიდეოებში ხშირად ჩამოსატვირთი ფაილი მალვარია. ამ დოკუმენტში აქტივაციის ლეგალური გზებია აღწერილი.
+      </div>
+    </section>
+
+    <section class="card" id="links">
+      <h2><span class="sec-num">16</span> ლინკები, ვერსიები, ჰეშები</h2>
+      <p class="sub">ყველაფერი ერთ ცხრილში, რომ ძებნა აღარ დაგჭირდეს. ვერსიები გადამოწმებულია 2026 წლის ნოემბერში.</p>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>რა</th><th>ვერსია / შენიშვნა</th><th>ლინკი</th></tr></thead>
+          <tbody>
+            <tr><td>Windows 11 ISO (ოფიციალური)</td><td>26H2, build 26300</td><td class="url">microsoft.com/software-download/windows11</td></tr>
+            <tr><td>ISO ინდექსი (მხოლოდ ორიგინალი ფაილები)</td><td>Consumer / Business / IoT Enterprise 26H2</td><td class="url">massgrave.dev/windows_11_links</td></tr>
+            <tr><td>Rufus</td><td>4.15 (2026 წლის 30 ივნისი)</td><td class="url">rufus.ie/en</td></tr>
+            <tr><td>Win11Debloat</td><td>2026.10.30</td><td class="url">github.com/Raphire/Win11Debloat</td></tr>
+            <tr><td>ReviOS Playbook</td><td>26.10 (2026 წლის 9 ოქტომბერი), მხარს უჭერს 26H2-ს</td><td class="url">revi.cc/download</td></tr>
+            <tr><td>ReviOS ISO Injection დოკუმენტაცია</td><td>ბეტა</td><td class="url">revi.cc/docs/playbook/iso</td></tr>
+            <tr><td>AME Wizard</td><td>Beta</td><td class="url">ameliorated.io</td></tr>
+            <tr><td>Lenovo დრაივერები (16IAX10H / 83F5)</td><td>Windows 11 64-bit</td><td class="url">pcsupport.lenovo.com/.../legion-pro-7-16iax10h/83f5/downloads</td></tr>
+            <tr><td>NVIDIA დრაივერები</td><td>აირჩიე Studio Driver</td><td class="url">nvidia.com/en-us/drivers</td></tr>
+            <tr><td>Autodesk Education</td><td>სტუდენტური უფასო 1 წელი</td><td class="url">autodesk.com/education</td></tr>
+            <tr><td>Archicad Student</td><td>უფასო 1 წელი</td><td class="url">myarchicad.graphisoft.com</td></tr>
+            <tr><td>Lumion Student</td><td>უფასო, წყლის ნიშნით</td><td class="url">lumion.com/product/students</td></tr>
+            <tr><td>Twinmotion</td><td>უფასო</td><td class="url">twinmotion.com</td></tr>
+            <tr><td>D5 Render</td><td>უფასო ვერსია</td><td class="url">d5render.com/pricing</td></tr>
+            <tr><td>Affinity</td><td>უფასო (2025 წლიდან)</td><td class="url">affinity.studio</td></tr>
+            <tr><td>Adobe CC Student</td><td>დაახლოებით $19.99/თვე</td><td class="url">adobe.com/creativecloud/plans</td></tr>
+            <tr><td>Blender</td><td>უფასო</td><td class="url">blender.org/download</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>როგორ შევამოწმოთ ISO ნამდვილია</h4>
+      <p>PowerShell-ში, ფაილის საქაღალდეში:</p>
+      <pre class="cmd"><code>Get-FileHash .\en-us_windows_11_business_editions_version_26h2_x64_dvd_*.iso -Algorithm SHA256</code></pre>
+      <p>
+        მიღებული ჰეშის პირველი 8 სიმბოლო უნდა დაემთხვეს ფაილის სახელის ბოლო 8 სიმბოლოს (მაგალითად <code>d9f2ccef</code>).
+        სრული შედარებისთვის გამოიყენე massgrave.dev-ის "verify authenticity" გვერდი, სადაც სრული SHA-256 მოცემულია.
+      </p>
+
+      <h4>სისტემის ვერსიის შემოწმება</h4>
+      <pre class="cmd"><code>winver
+Get-ComputerInfo | Select WindowsProductName, OsVersion, OsBuildNumber, CsTotalPhysicalMemory</code></pre>
+    </section>
+
+    <section class="card" id="faq">
+      <h2><span class="sec-num">17</span> კითხვა-პასუხი (მოკლედ, ადამიანურად)</h2>
+
+      <details>
+        <summary>მეშინია, რომ რამეს გავაფუჭებ</summary>
+        <p>ახალი ლეპტოპია და მასზე შენახული მონაცემი არ არსებობს. ინსტალაცია ვერაფერს "დაწვავს": ყველაზე ცუდ შემთხვევაში ვინდოუსი
+        ხელახლა დაყენდება. ერთადერთი, რაც შეიძლება დაიკარგოს, არის დრო. ანუ რისკი მინიმალურია.</p>
+      </details>
+
+      <details>
+        <summary>რამდენ ხანს გასტანს მთელი პროცესი</summary>
+        <p>ფლეშკის ჩაწერა 30-60 წუთი, ინსტალაცია 25-40 წუთი, პირველი ჩართვა 10-15 წუთი. ანუ დაახლოებით ორ საათში მუშა სისტემა გვაქვს.
+        დრაივერები და განახლებები კიდევ 1-1.5 საათი. პროგრამები ცალკე დღეა.</p>
+      </details>
+
+      <details>
+        <summary>თუ ინტერნეტი გაითიშა ინსტალაციის დროს</summary>
+        <p>ინსტალაცია არ წყდება, ის ლოკალურად მიდის. ინტერნეტი მხოლოდ პირველი ჩართვის ბოლოს სჭირდება (განახლებებისთვის).
+        თუ Rufus-ით ლოკალური ანგარიში შევქმენით, ინტერნეტი საერთოდ არ არის სავალდებულო.</p>
+      </details>
+
+      <details>
+        <summary>რომელი ვერსია მაქვს ახლა დაყენებული</summary>
+        <p>Win+R, ჩაწერე <code>winver</code>. ან Settings / System / About. იქ დაინახავ გამოცემას (Pro) და ვერსიას (26H2, build 26300.x).</p>
+      </details>
+
+      <details>
+        <summary>შეიძლება მოგვიანებით Home-იდან Pro-ზე გადასვლა</summary>
+        <p>დიახ, გადაყენების გარეშე: Settings / System / Activation / "Upgrade your edition of Windows" ან Pro-ს გასაღების შეყვანა.
+        ვინდოუსი თვითონ გადაერთვის, პროგრამები რჩება.</p>
+      </details>
+
+      <details>
+        <summary>პაროლი დამავიწყდა, რა ვქნა</summary>
+        <p>თუ Microsoft-ის ანგარიშით შევედი: გვერდიდან "Forgot password". თუ ლოკალური ანგარიშია: Windows-ის აღდგენის რეჟიმი
+        და პაროლის გადაყენება, ან მონაცემების გადარჩენა Live USB-ით. ამიტომ სჯობს პაროლი სადმე ჩაიწერო ან password manager-ში შეინახო.</p>
+      </details>
+
+      <details>
+        <summary>გარანტია ხომ არ იშლება ვინდოუსის დაყენებით</summary>
+        <p>არა. ოპერაციული სისტემის დაყენება გარანტიას არ არღვევს. გარანტია იშლება მხოლოდ ფიზიკური ჩარევით (გახსნა, ნაწილის შეცვლა)
+        იმ შემთხვევაში, თუ ეს დაზიანებას გამოიწვევს.</p>
+      </details>
+
+      <details>
+        <summary>რა ვქნა, თუ ლეპტოპი ხმაურობს ან ცხელდება</summary>
+        <p>ჯერ შეამოწმე Legion Space-ის რეჟიმი (Quiet ან Balanced), შემდეგ Task Manager-ში ნახე რომელი პროცესი ჭამს CPU-ს.
+        ჩვეულებრივ ეს არის Windows Update, ინდექსირება ან ბრაუზერის ტაბი. გრილ დღეს ლეპტოპს ჰაერი სჭირდება: რბილ ზედაპირზე არ დადო.</p>
+      </details>
+
+      <details>
+        <summary>სად შევინახო პროექტები</summary>
+        <p>ერთ საქაღალდეში, მაგალითად <code>C:\Projects</code>, და ეს საქაღალდე OneDrive-ზე ან Google Drive-ზე სინქრონიზდეს.
+        თვეში ერთხელ გარე SSD-ზე სრული ასლი. არქიტექტურის ფაილები ძვირფასია და ხშირად დიდი.</p>
+      </details>
+
+      <details>
+        <summary>მართლა მჭირდება ReviOS ან Atlas</summary>
+        <p>არა. სუფთა Windows 11 Pro + Win11Debloat საკმარისია. ReviOS მხოლოდ მაშინ, თუ გინდა მაქსიმალური სიმსუბუქე და არ გეშინია
+        Defender-ის გამორთვის. AtlasOS ამ ვერსიაზე (26H2) საერთოდ არ მუშაობს.</p>
+      </details>
+    </section>
+
+    <section class="card" id="commands">
+      <h2><span class="sec-num">18</span> ბრძანებების ფურცელი</h2>
+      <p class="sub">დააკოპირე და ჩასვი. Win+R არის "Run" ფანჯარა, PowerShell ან cmd კი ადმინისტრატორის უფლებებით უნდა გახსნა იქ, სადაც ეს საჭიროა.</p>
+
+      <h4>სისტემის ინფორმაცია</h4>
+      <pre class="cmd"><code>winver
+msinfo32
+dxdiag
+slmgr /xpr
+slmgr /dlv</code></pre>
+
+      <h4>მოწყობილობები და დისკები</h4>
+      <pre class="cmd"><code>devmgmt.msc
+diskmgmt.msc
+ncpa.cpl
+powercfg /batteryreport</code></pre>
+
+      <h4>აღდგენა და განახლება</h4>
+      <pre class="cmd"><code>SystemPropertiesProtection
+DISM /Online /Cleanup-Image /RestoreHealth
+SFC /scannow</code></pre>
+
+      <h4>ლოკალური ანგარიში OOBE-ზე</h4>
+      <pre class="cmd"><code>start ms-cxh:localonly</code></pre>
+
+      <h4>პროგრამების დაყენება winget-ით (სურვილისამებრ)</h4>
+      <pre class="cmd"><code>winget install 7zip.7zip
+winget install voidtools.Everything
+winget install Microsoft.PowerToys
+winget install VideoLAN.VLC</code></pre>
+
+      <h4>აქტივაციის სტატუსი და გასაღები</h4>
+      <pre class="cmd"><code>slmgr /xpr
+slmgr /ipk XXXXX-XXXXX-XXXXX-XXXXX-XXXXX
+slmgr /ato
+slui 3</code></pre>
+
+      <div class="foot">
+        <p>
+          <strong>წყაროები:</strong> Lenovo PSREF (მოდელი 83F50025RK), Microsoft Windows 11 გამოშვების ინფორმაცია (26H2, build 26300),
+          Microsoft-ის ჩამოტვირთვის გვერდი, Rufus 4.15 გამოშვების შენიშვნები, Win11Debloat რეპოზიტორია, ReviOS 26.10 გამოშვება და დოკუმენტაცია,
+          AtlasOS-ის ვერსიების მხარდაჭერის გვერდი, Autodesk / Graphisoft / Lumion / Adobe / Affinity-ს ოფიციალური გვერდები.
+        </p>
+        <p>
+          ეს დოკუმენტი ერთი ფაილია და ინტერნეტის გარეშეც იხსნება (შრიფტები ჩაიტვირთება თუ ინტერნეტია, თუ არა, სისტემური შრიფტი გამოიყენება).
+          ჩექლისტის მონიშვნები ინახება ამ ბრაუზერში, ამიტომ ერთი და იმავე კომპიუტერიდან გახსნისას პროგრესი არ იკარგება.
+        </p>
+        <p>შექმნილია 2026 წლის ნოემბერს, თეკლას ლეპტოპისთვის. კითხვისას თუ რამე არ ემთხვევა ეკრანს, ენდე ეკრანს და არა ტექსტს.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+(function(){
+  var KEY = 'w11pro-legion-tekla-v1';
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('input[type=checkbox][data-k]'));
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e) { saved = {}; }
+
+  function update(){
+    var done = boxes.filter(function(b){ return b.checked; }).length;
+    var pct = boxes.length ? Math.round(done / boxes.length * 100) : 0;
+    var bar = document.getElementById('bar');
+    var label = document.getElementById('pct');
+    if(bar) bar.style.width = pct + '%';
+    if(label) label.textContent = pct + '%  (' + done + '/' + boxes.length + ')';
+  }
+
+  boxes.forEach(function(b){
+    if(saved[b.dataset.k]) b.checked = true;
+    b.addEventListener('change', function(){
+      saved[b.dataset.k] = b.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch(e) {}
+      update();
+    });
+  });
+  update();
+
+  var reset = document.getElementById('resetBtn');
+  if(reset){
+    reset.addEventListener('click', function(){
+      if(!confirm('ყველა მონიშვნა წაიშლება. გავაგრძელოთ?')) return;
+      saved = {};
+      try { localStorage.removeItem(KEY); } catch(e) {}
+      boxes.forEach(function(b){ b.checked = false; });
+      update();
+    });
+  }
+
+  document.querySelectorAll('pre.cmd').forEach(function(pre){
+    var btn = document.createElement('button');
+    btn.className = 'copy';
+    btn.type = 'button';
+    btn.textContent = 'კოპირება';
+    btn.addEventListener('click', function(){
+      var code = pre.querySelector('code');
+      var text = code ? code.innerText : pre.innerText;
+      var done = function(){ btn.textContent = 'დაკოპირდა'; setTimeout(function(){ btn.textContent = 'კოპირება'; }, 1400); };
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(done, function(){ fallback(text, done); });
+      } else { fallback(text, done); }
+    });
+    pre.appendChild(btn);
+  });
+
+  function fallback(text, done){
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch(e) {}
+    document.body.removeChild(ta);
+  }
+
+  var links = Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var sections = links.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(!en.isIntersecting) return;
+        links.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + en.target.id); });
+      });
+    }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+    sections.forEach(function(s){ io.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>
